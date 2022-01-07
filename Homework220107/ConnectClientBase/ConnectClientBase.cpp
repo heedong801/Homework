@@ -65,6 +65,7 @@ int main()
 		char Delimiter = ':';
 		int DelimiterCnt = 0;
 		int DotDelimiterCnt = 0;
+		resetFlag = false;
 		std::string numStr = "";
 		for (int i = 0; i < Ip.length(); ++i)
 		{
