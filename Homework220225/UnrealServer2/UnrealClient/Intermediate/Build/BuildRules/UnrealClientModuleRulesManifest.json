@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"D:\\ServerStudy\\UnrealServer2\\UnrealClient\\Source\\UnrealClient\\UnrealClient.Build.cs",
+		"D:\\ServerStudy\\UnrealServer2\\UnrealClient\\Source\\UnrealClient.Target.cs",
+		"D:\\ServerStudy\\UnrealServer2\\UnrealClient\\Source\\UnrealClientEditor.Target.cs"
+	],
+	"EngineVersion": "4.27.2"
+}

@@ -32,7 +32,7 @@ public:
     // 공백 제거
     static void TrimRemove(std::string& _Text)
     {
-        Replace(_Text, " ", "", static_cast<int>(_Text.length() - 1));
+        Replace(_Text, " ", "", static_cast<int>(_Text.length()));
     }
 
     static void ToUpper(std::string& _Text)
@@ -43,15 +43,18 @@ public:
     // 전부 삭제
     static void Remove(std::string& _Text, const std::string& _DeleteText)
     {
-        Replace(_Text, _DeleteText, "", static_cast<int>(_Text.length() - 1));
+        Replace(_Text, _DeleteText, "", static_cast<int>(_Text.length()));
     }
 };
 
 
 int main()
 {
+    std::string a = "aaaa";
 
 
+    String::Remove(a, "a");
+    std::cout << a << std::endl;
 }
 
 

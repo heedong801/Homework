@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages.h" />
+    <ClInclude Include="MessageConverter.h" />
+    <ClInclude Include="Dispatcher.h" />
+    <ClInclude Include="MessageIdEnum.h" />
+    <ClInclude Include="ServerToClient.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientToServer.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerAndClient.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerMessage.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnums.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="Dispatcher.cpp" />
+    <ClCompile Include="MessageConverter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{3279ae6f-94f3-4e16-ad46-52daa8edb4a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message">
+      <UniqueIdentifier>{5356035f-29ad-4eb8-92c7-37df2f61c965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MessageInfo">
+      <UniqueIdentifier>{6d8852df-1709-4a15-99fc-28458b0476cc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Info\MessageServerToClient.txt">
+      <Filter>MessageInfo</Filter>
+    </Text>
+    <Text Include="Info\MessageServerAndClient.txt">
+      <Filter>MessageInfo</Filter>
+    </Text>
+    <Text Include="Info\MessageClientToServer.txt">
+      <Filter>MessageInfo</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
