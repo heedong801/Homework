@@ -1,0 +1,18 @@
+1. git download 구글에서 검색
+
+2. 최상단의 다운로드 링크로 들어간다.
+
+3. WINDOW 환경의 GIT을 다운로드 받는다.
+
+4. 다른건 다 NEXT만 눌러도 되지만
+   3가지 선택지가 나올때가 있는데.
+   Use Git And optional Unix tools form the command prompt
+
+5. 선생님의 코드를 받기 원하는 폴더로 간다.
+   탐색기창 폴더쪽에서 CMD를 입력]
+
+6. 나타난 커맨드라인 창에서
+   git clone https://github.com/chcjsdud/UnrealServer2.git
+   를 입력하면 받을수 있는데 안된다.
+
+7. 선생님에게 git hub 아이디를 알려줘야 받을수 있게 된다.

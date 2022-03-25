@@ -58,16 +58,32 @@ void ThreadHandlerJoinMessage::DBCheck(/*GameEngineThread* _Thread*/)
 	UserTable_SelectIDToUserInfo SelectQuery(JoinMessage_->ID);
 	SelectQuery.DoQuery();
 
-	if (nullptr == SelectQuery.RowData)
+	bool Error = false;
+	for (int i = 0; i < JoinMessage_->ID.length(); ++i)
 	{
-		UserTable_InsertUserInfo Query = UserTable_InsertUserInfo(JoinMessage_->ID, JoinMessage_->PW);
-		if (false == Query.DoQuery())
-			JoinResult_.Code = EGameServerCode::JoinError;
+		if ((JoinMessage_->ID[i] >= 'A' && JoinMessage_->ID[i] <= 'Z') ||
+			(JoinMessage_->ID[i] >= 'a' && JoinMessage_->ID[i] <= 'z'))
+			continue;
 		else
-			JoinResult_.Code = EGameServerCode::OK;
+		{
+			JoinResult_.Code = EGameServerCode::JoinError_NotAlpha;
+			Error = true;
+			break;
+		}
 	}
-	else
-		JoinResult_.Code = EGameServerCode::JoinError_SameID;
+	if (!Error)
+	{
+		if (nullptr == SelectQuery.RowData)
+		{
+			UserTable_InsertUserInfo Query = UserTable_InsertUserInfo(JoinMessage_->ID, JoinMessage_->PW);
+			if (false == Query.DoQuery())
+				JoinResult_.Code = EGameServerCode::JoinError;
+			else
+				JoinResult_.Code = EGameServerCode::OK;
+		}
+		else
+			JoinResult_.Code = EGameServerCode::JoinError_SameID;
+	}
 
 
 	// INSERT INTO `userver2`.`user` (`ID`, `PW`) VALUES('c', 'c');

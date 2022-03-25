@@ -9,6 +9,7 @@ enum class EGameServerCode
 	OK,
 	LoginError,
 	JoinError_SameID,
+	JoinError_NotAlpha,
 	JoinError,
 	MAX,
 };

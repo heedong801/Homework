@@ -130,6 +130,9 @@ void ULoginUI::SetJoinResult(EGameServerCode _Result)
 	case EGameServerCode::JoinError_SameID:
 		LoginStatus = TEXT("중복 ID");
 		break;
+	case EGameServerCode::JoinError_NotAlpha:
+		LoginStatus = TEXT("영문자만 됩니다.");
+		break;
 	case EGameServerCode::OK:
 		LoginStatus = TEXT("회원가입 성공");
 		break;
