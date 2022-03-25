@@ -1,0 +1,3 @@
+|Chat-
+std::string ID;
+std::string Message;
