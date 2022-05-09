@@ -1,0 +1,51 @@
+|LoginResult-
+EGameServerCode Code;
+
+|CharacterCreateResult-
+FCharacterInfo ResultCharacter;
+EGameServerCode Code;
+
+|CharacterSelectResult-
+EGameServerCode Code;
+std::string NickName;
+
+|LevelMove-
+uint64_t ObjectIndex;
+uint64_t ThreadIndex;
+uint64_t SectionIndex;
+std::string MoveLevel;
+
+
+|UDPReadyOK-
+EGameServerCode Code;
+uint64_t ObjectIndex;
+
+|SectionInsertResult-
+EGameServerCode Code;
+uint64_t UDPPort;
+uint64_t ObjectIndex;
+uint64_t ThreadIndex;
+uint64_t SectionIndex;
+std::string MoveLevel;
+
+|ServerDestroy-
+
+|PlayerDestroy-
+
+|ObjectDestroy-
+uint64_t ObjectID;
+
+|CharacterList-
+std::vector<FCharacterInfo> Characters;
+
+|PlayersUpdate-
+std::vector<FPlayerUpdateData> Datas;
+
+|MonsterUpdate-
+FMonsterUpdateData Data;
+
+|UserRankWindowData-
+std::vector<std::string> TopUserName;
+std::vector<int> TopUserScore;
+std::vector<std::string> MyUserName;
+std::vector<int> MyUserScore;

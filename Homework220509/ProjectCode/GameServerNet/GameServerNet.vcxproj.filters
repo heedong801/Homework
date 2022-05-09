@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="EndPoint.h">
+      <Filter>IP</Filter>
+    </ClInclude>
+    <ClInclude Include="IPAddress.h">
+      <Filter>IP</Filter>
+    </ClInclude>
+    <ClInclude Include="IPEndPoint.h">
+      <Filter>IP</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketAddress.h">
+      <Filter>IP</Filter>
+    </ClInclude>
+    <ClInclude Include="DNSEndPoint.h">
+      <Filter>IP</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPListener.h">
+      <Filter>NetObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPSession.h">
+      <Filter>NetObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeDefine.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerHelper.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerOverlapped.h">
+      <Filter>IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnecter.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DBManager.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DBTableBase.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DBQuery.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPSession.h">
+      <Filter>NetObject</Filter>
+    </ClInclude>
+    <ClInclude Include="RedisConnecter.h">
+      <Filter>Redis</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="IPAddress.cpp">
+      <Filter>IP</Filter>
+    </ClCompile>
+    <ClCompile Include="IPEndPoint.cpp">
+      <Filter>IP</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketAddress.cpp">
+      <Filter>IP</Filter>
+    </ClCompile>
+    <ClCompile Include="DNSEndPoint.cpp">
+      <Filter>IP</Filter>
+    </ClCompile>
+    <ClCompile Include="EndPoint.cpp">
+      <Filter>IP</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPListener.cpp">
+      <Filter>NetObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPSession.cpp">
+      <Filter>NetObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerHelper.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerOverlapped.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnecter.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DBManager.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DBTableBase.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DBQuery.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="UDPSession.cpp">
+      <Filter>NetObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RedisConnecter.cpp">
+      <Filter>Redis</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{3279ae6f-94f3-4e16-ad46-52daa8edb4a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{20815a78-7fb7-443f-a245-b4c532a9ad03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NetObject">
+      <UniqueIdentifier>{5e5e43d3-affb-4ff0-870f-3f859a485a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{e683928d-10f2-40aa-b2d9-aacfdd3b0b55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IP">
+      <UniqueIdentifier>{bbe6ec4f-fdd9-4ab2-aeea-60b51e1a8862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IOCP">
+      <UniqueIdentifier>{1d25ff23-9d69-4849-83d5-7f725ff34ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{73d5546d-977f-4136-999a-19aeca6dbe4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dll">
+      <UniqueIdentifier>{e20ff251-be8f-4e48-94ae-e70ebe741c3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Redis">
+      <UniqueIdentifier>{1c6f2ce3-7118-4c26-ae2c-da0013e062a6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\Thirdparty\Lib\zlib1.dll">
+      <Filter>dll</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\Thirdparty\Lib\libcrypto-1_1-x64.dll">
+      <Filter>dll</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\Thirdparty\Lib\libmysql.dll">
+      <Filter>dll</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\Thirdparty\Lib\libssl-1_1-x64.dll">
+      <Filter>dll</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\Thirdparty\Lib\tinyxml2.dll">
+      <Filter>dll</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
+</Project>

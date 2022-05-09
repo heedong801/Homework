@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServerApp>
+	<ServerStart Port="30001"/>
+	<DataBase Host="127.0.0.1" Port="3306" Name="userver2" User="root" PW="1234" />
+</ServerApp>

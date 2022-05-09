@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ServerDispatcher.cpp" />
+    <ClCompile Include="PreCompile.cpp" />
+    <ClCompile Include="CharacterTable.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="UserTable.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerLoginMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerChatMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="StudyGameServerCore.cpp" />
+    <ClCompile Include="ThreadHandlerCreateCharacterMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageConverter.cpp">
+      <Filter>Message\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsUserData.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerSelectCharacterMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="NoneFightZone.cpp">
+      <Filter>Object\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="FightZone.cpp">
+      <Filter>Object\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerPlayerUpdateMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerClientToReadyMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerPlayerUpdateMessageUDP.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerUDPConnectResultMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsGlobalValue.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Message.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerLevelMoveReplyMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerRankRequestMessage.cpp">
+      <Filter>ThreadHandler</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="CharacterTable.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="UserTable.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerChatMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerLoginMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="StudyGameServerCore.h" />
+    <ClInclude Include="ServerDispatcher.h" />
+    <ClInclude Include="ThreadHandlerCreateCharacterMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h">
+      <Filter>Message\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsStructure.h">
+      <Filter>Message\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientToServer.h">
+      <Filter>Message\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageIdEnum.h">
+      <Filter>Message\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerAndClient.h">
+      <Filter>Message\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerToClient.h">
+      <Filter>Message\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsUserData.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsSystemEnum.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerSelectCharacterMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="NoneFightZone.h">
+      <Filter>Object\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="FightZone.h">
+      <Filter>Object\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerPlayerUpdateMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerClientToReadyMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsPlayerData.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerPlayerUpdateMessageUDP.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerUDPConnectResultMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsGlobalValue.h" />
+    <ClInclude Include="Player.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerLevelMoveReplyMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerRankRequestMessage.h">
+      <Filter>ThreadHandler</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DB">
+      <UniqueIdentifier>{1775f085-b751-468d-85ae-2f52d4dcdfeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreadHandler">
+      <UniqueIdentifier>{5f24cfed-dadc-406b-b591-75fddc1eafd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message">
+      <UniqueIdentifier>{79345f59-879c-46ea-8f6b-ece57ac1141b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message\Info">
+      <UniqueIdentifier>{b2184246-f4ef-4d52-8520-a1a28b326d1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message\Result">
+      <UniqueIdentifier>{812174fc-bd56-4810-91e8-346bf9005f27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message\Sub">
+      <UniqueIdentifier>{831f96dc-4bc7-4961-877c-85dc8bc21b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{c86375a3-56cf-4dfb-9ce0-dfdc6f31b4a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{c03dbf3e-4ec4-4033-86a7-5547bea5ea54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor">
+      <UniqueIdentifier>{f3679276-75e1-4685-866f-f47a1010668c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Section">
+      <UniqueIdentifier>{fcf463da-35aa-413d-b7b9-5de45305a70a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Info\MessageServerToClient.txt">
+      <Filter>Message\Info</Filter>
+    </Text>
+    <Text Include="Info\MessageClientToServer.txt">
+      <Filter>Message\Info</Filter>
+    </Text>
+    <Text Include="Info\MessageServerAndClient.txt">
+      <Filter>Message\Info</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

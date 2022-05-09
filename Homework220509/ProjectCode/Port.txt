@@ -1,0 +1,25 @@
+#include <string>
+#include <stdio.h>
+
+std::string getResultFromCommand(std::string cmd) {
+    std::string result;
+    FILE* stream;
+    const int maxBuffer = 256; // 버퍼의 크기는 적당하게
+    char buffer[maxBuffer];
+    cmd.append(" 2>&1"); // 표준에러를 표준출력으로 redirect
+
+    stream = _popen(cmd.c_str(), "r"); // 주어진 command를 shell로 실행하고 파이프 연결 (fd 반환)
+    if (stream) {
+        while (fgets(buffer, maxBuffer, stream) != NULL) result.append(buffer); // fgets: fd (stream)를 길이 (maxBuffer)만큼 읽어 버퍼 (buffer)에 저장
+        _pclose(stream); // 파이프 닫는 것 잊지 마시고요!
+    }
+    return result;
+}
+
+
+int main()
+{
+    std::string Text = getResultFromCommand("netstat -anp udp");
+
+    std::cout << "Hello World!\n";
+}

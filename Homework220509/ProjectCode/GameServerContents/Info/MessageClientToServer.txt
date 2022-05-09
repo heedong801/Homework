@@ -1,0 +1,27 @@
+|Login-
+std::string ID;
+std::string PW;
+
+|CreateCharacter-
+std::string NickName;
+
+|SelectCharacter-
+std::string NickName;
+
+|ClientToReady-
+uint64_t ObjectIndex;
+uint64_t ThreadIndex;
+uint64_t SectionIndex;
+
+|UDPConnectResult-
+uint64_t ObjectIndex;
+uint64_t ThreadIndex;
+uint64_t SectionIndex;
+
+|LevelMoveReply-
+uint64_t ObjectIndex;
+uint64_t ThreadIndex;
+uint64_t SectionIndex;
+
+|RankRequest-
+std::string NickName;

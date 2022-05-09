@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MessageParserInfo>
+	<MessageFileOption Include="MessageIdEnum.h,ContentsEnum.h,ContentsStructure.h"/>
+</MessageParserInfo>

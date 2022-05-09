@@ -1,0 +1,6 @@
+|Chat-
+std::string ID;
+std::string Message;
+
+|PlayerUpdate-
+FPlayerUpdateData Data;

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="GameServerCore.h" />
+    <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="DBQueue.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="NetQueue.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandlerBase.h" />
+    <ClInclude Include="GameServerActor.h">
+      <Filter>ObjectBase</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerSection.h">
+      <Filter>ObjectBase</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerSectionManager.h">
+      <Filter>ObjectBase\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerSectionThread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerCollision.h">
+      <Filter>ObjectBase\ActorSub</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameServerCore.cpp" />
+    <ClCompile Include="PreCompile.cpp" />
+    <ClCompile Include="DBQueue.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="NetQueue.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadHandlerBase.cpp" />
+    <ClCompile Include="GameServerActor.cpp">
+      <Filter>ObjectBase</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerSection.cpp">
+      <Filter>ObjectBase</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerSectionManager.cpp">
+      <Filter>ObjectBase\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerSectionThread.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerCollision.cpp">
+      <Filter>ObjectBase\ActorSub</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{03e06d90-3a73-451b-a45c-b700ec1bd73e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectBase">
+      <UniqueIdentifier>{04bfca67-1e8e-4d7e-b83b-005c653a464c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectBase\Manager">
+      <UniqueIdentifier>{55f38d64-fae6-48a7-b0f5-5322ad693f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectBase\ActorSub">
+      <UniqueIdentifier>{354b9e06-1a68-47da-b5b8-3b7d76b9a72b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
