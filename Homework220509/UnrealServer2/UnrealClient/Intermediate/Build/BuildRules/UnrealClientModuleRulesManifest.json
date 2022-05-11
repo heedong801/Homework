@@ -1,8 +1,0 @@
-{
-	"SourceFiles": [
-		"D:\\ServerStudy\\git\\Homework\\Homework220509\\UnrealClient\\Source\\UnrealClient\\UnrealClient.Build.cs",
-		"D:\\ServerStudy\\git\\Homework\\Homework220509\\UnrealClient\\Source\\UnrealClient.Target.cs",
-		"D:\\ServerStudy\\git\\Homework\\Homework220509\\UnrealClient\\Source\\UnrealClientEditor.Target.cs"
-	],
-	"EngineVersion": "4.27.2"
-}
