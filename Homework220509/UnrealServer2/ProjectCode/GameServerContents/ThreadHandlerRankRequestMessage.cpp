@@ -46,7 +46,7 @@ void ThreadHandlerRankRequestMessage::Start()
 
 void ThreadHandlerRankRequestMessage::DBCheck(/*GameEngineThread* _Thread*/)
 {
-	RedisConnecter* Connecter = GameServerThread::GetLocalData<RedisConnecter>(1);
+	std::shared_ptr<RedisConnecter> Connecter = RedisConnecter::GetConnector();
 
 	RedisCommend::ZRANGE TopRange = RedisCommend::ZRANGE("UserRank", 0, 4, ZRANGEOPTION::GREATER, ZRANGESCOREOPTION::WITHSCORES);
 	TopRange.Process(*Connecter);

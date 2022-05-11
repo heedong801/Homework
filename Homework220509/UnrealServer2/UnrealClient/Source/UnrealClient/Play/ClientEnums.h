@@ -11,5 +11,4 @@ enum class ClientAnimationType : uint8
 	Idle UMETA(DisplayName = "대기 애니메이션"),
 	Move UMETA(DisplayName = "이동 애니메이션"),
 	Attack UMETA(DisplayName = "공격 애니메이션"),
-	Death UMETA(DisplayName = "죽는 애니메이션"),
 };

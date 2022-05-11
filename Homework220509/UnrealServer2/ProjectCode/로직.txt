@@ -1,0 +1,28 @@
+1. 네트워크나 
+2. DB나 이런것들은 사실 기본이고
+   회사마다 한번만들어지면
+   안빠궈요.
+
+3. 컨텐츠일수밖에 없어요.
+
+   std::map<int, Section*> AllRoom;
+
+   // 서버프로그래머들 의견을 들어보면
+   // 8000대 AWS가 긴장.
+   // 파이썬으로 만들었어요 ?????????? 모바일로 C++로 모바일 게임을 만든다???????
+
+   // 선생님이 말하는 Section이란
+   // 유저들을 분산시켜서 관리하는 지역에 가까운 개념인데
+   // 눈에 어떤 맵 이 보이고 분절되어있다고. 
+
+   // 지금 진짜 실제적으로 움직이는 몬스터들과 액터들을 
+   list<gameserveractor*> 
+
+
+   Section* NewSection = FindSection('aaaa');
+   NewSection->Update();
+
+
+
+
+   for(:AllSection)

@@ -34,7 +34,6 @@ enum class EMonsterState
 	MState_Idle,
 	MState_Trace,
 	MState_Att,
-	MState_Death,
 	MAX,
 };
 

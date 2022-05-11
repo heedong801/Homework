@@ -14,4 +14,22 @@ class UNREALCLIENT_API URankListItem : public UUserWidget
 {
 	GENERATED_BODY()
 	
+
+public:
+	FORCEINLINE void SetNickName(const FString& _NickName)
+	{
+		NickName = _NickName;
+	}
+
+	FORCEINLINE void SetScore(const FString& _Score)
+	{
+		Score = _Score;
+	}
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rank Data", meta = (AllowPrivateAccess = "true"))
+	FString NickName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rank Data", meta = (AllowPrivateAccess = "true"))
+	FString Score;
 };

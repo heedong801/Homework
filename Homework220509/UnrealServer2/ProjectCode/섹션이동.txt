@@ -1,0 +1,12 @@
+
+       중간이동
+            서버                                클라
+       플레이어가 포탈 충돌체크
+       LevelMoveMessage =>
+                                          udp 패킷을 더이상 보내지 않는다
+                                          <= LevelMoveReplyMessage
+                                          
+       이걸 받으면 진짜 섹션 이동을 시킨다.
+
+
+       

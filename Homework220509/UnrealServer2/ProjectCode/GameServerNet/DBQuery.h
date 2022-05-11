@@ -4,6 +4,8 @@
 // Ό³Έν :
 class DBQuery
 {
+
+
 public:
 	DBQuery(const char* _Query);
 	~DBQuery();
@@ -16,7 +18,7 @@ public:
 	virtual bool DoQuery() = 0;
 
 protected:
-	DBConnecter* DBConnecterPtr;
+	std::shared_ptr<DBConnecter> DBConnecterPtr;
 	const char* QueryString;
 
 private:

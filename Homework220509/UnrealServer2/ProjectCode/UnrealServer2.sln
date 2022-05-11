@@ -80,6 +80,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tikitaka", "Tikitaka", "{73
 		섹션이동.txt = 섹션이동.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "학생필요", "학생필요", "{2E54B4E8-7E88-411E-A5A6-9373D9EE8A4B}"
+	ProjectSection(SolutionItems) = preProject
+		할거.txt = 할거.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -160,6 +165,7 @@ Global
 		{183F2038-4FB2-4DA3-8343-CD75B0D2FD77} = {C17BBAF6-214B-4E98-90B4-9C585FE1D6AF}
 		{B7334CD7-5094-46F9-A690-73B47797E9B9} = {7E8E7F26-32A8-45CD-B543-9C711CC9C2F9}
 		{73BCB382-D4A2-4CD7-A63D-7DB23D72E53B} = {7E8E7F26-32A8-45CD-B543-9C711CC9C2F9}
+		{2E54B4E8-7E88-411E-A5A6-9373D9EE8A4B} = {7E8E7F26-32A8-45CD-B543-9C711CC9C2F9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BB2F7EB7-4F9D-4FBC-9A0D-77591359092A}

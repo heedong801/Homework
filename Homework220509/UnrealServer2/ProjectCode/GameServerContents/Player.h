@@ -1,7 +1,7 @@
 #pragma once
 #include <GameServerCore\GameServerActor.h>
 #include "ServerAndClient.h"
-
+#include <GameServerNet\RedisConnecter.h>
 // Ό³Έν :
 class ContentsUserData;
 class Player : public GameServerActor
@@ -16,6 +16,17 @@ public:
 	Player(Player&& _Other) noexcept = delete;
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
+
+private:
+	std::shared_ptr<RedisConnecter> GetBaseRankConntor() 
+	{
+		return RedisConnecter::GetConnector(0);
+	}
+
+	//std::shared_ptr<RedisConnecter> GetRegulerRankConntor()
+	//{
+	//	return RedisConnecter::GetConnector(1);
+	//}
 
 public:
 	void MessageCheck();
@@ -35,10 +46,9 @@ protected:
 private:
 	class Portal* PortalPtr;
 
-	bool IsAttack;
 	// std::shared_ptr<GameServerCollision> HitCollision;
 	GameServerCollision* HitCollision;
-	GameServerCollision* AttackCollision;
+
 	PlayerUpdateMessage Message_;
 	GameServerSerializer Serializer_;
 

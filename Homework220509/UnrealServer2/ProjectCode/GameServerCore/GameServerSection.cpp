@@ -66,13 +66,6 @@ bool GameServerSection::Update(float _Time)
 			MoveActors_[i].NextSection->MoveActor(MoveActors_[i].MoveActor);
 		}
 		MoveActors_.clear();
-		
-		for (size_t i = 0; i < DeleteActors_.size(); i++)
-		{
-			KeyActor_.erase(DeleteActors_[i]->GetIndex());
-			AIActor_.remove(DeleteActors_[i]);
-		}
-		DeleteActors_.clear();
 		// PlayableActor_.begin();
 	}
 
@@ -134,11 +127,6 @@ bool GameServerSection::Update(float _Time)
 void GameServerSection::SectionMove(std::shared_ptr<GameServerActor> _MoveActor, GameServerSection* _MoveSection)
 {
 	MoveActors_.push_back({ _MoveActor, _MoveSection });
-}
-
-void GameServerSection::DeleteAIActor(std::shared_ptr<GameServerActor> _DeleteActor)
-{
-	DeleteActors_.emplace_back(_DeleteActor);
 }
 
 void GameServerSection::Release() 

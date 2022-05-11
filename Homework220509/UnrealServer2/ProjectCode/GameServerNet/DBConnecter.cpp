@@ -235,6 +235,19 @@ std::unique_ptr<DBStmtResult> DBStmt::Execute()
 
 /////////////////////////////////////////////// CONNECTER
 
+thread_local std::vector<std::shared_ptr<DBConnecter>> DBConnecter::AllConnector;
+
+bool DBConnecter::InitConntor(const std::string& _Host, const std::string& _Id, const std::string& _Pw, const std::string& _Schema, unsigned int _Port, int _Index /*= 0*/)
+{
+	AllConnector.resize(_Index + 1);
+	AllConnector[_Index] = std::make_shared<DBConnecter>();
+	return AllConnector[_Index]->Connect(_Host, _Id, _Pw, _Schema, _Port);
+}
+
+std::shared_ptr<DBConnecter> DBConnecter::GetConnector(int _Index /*= 0*/) 
+{
+	return AllConnector[_Index];
+}
 
 DBConnecter::DBConnecter()
 	: mysql_(nullptr)
@@ -343,9 +356,10 @@ std::string DBConnecter::GetLastError()
 	return mysql_error(mysql_);
 }
 
+
+
 bool DBConnecter::Connect(const std::string& _Host, const std::string& _Id, const std::string& _Pw, const std::string& _Schema, unsigned int _Port)
 {
 	ConnectInfoSetting(_Host, _Id, _Pw, _Schema, _Port);
 	return Connect();
 }
-

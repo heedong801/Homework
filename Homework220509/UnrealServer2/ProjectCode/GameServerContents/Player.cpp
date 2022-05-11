@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "Player.h"
-#include "Monster.h"
 #include "Portal.h"
 #include "ClientToServer.h"
 #include "ServerToClient.h"
@@ -14,14 +13,12 @@
 #include "GameServerBase\GameServerDebug.h"
 #include <GameServerCore\GameServerSection.h>
 #include <GameServerCore\DBQueue.h>
-#include <GameServerNet\RedisConnecter.h>
+
 
 Player::Player()
 	: UDPReady_(false)
 	, PortalPtr(nullptr)
 	, HitCollision(nullptr)
-	, AttackCollision(nullptr)
-	, IsAttack(false)
 {
 }
 
@@ -32,12 +29,6 @@ Player::~Player()
 	{
 		HitCollision->Death();
 		HitCollision = nullptr;
-	}
-
-	if (nullptr != AttackCollision)
-	{
-		AttackCollision->Death();
-		AttackCollision = nullptr;
 	}
 }
 
@@ -63,41 +54,10 @@ void Player::PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessag
 	}
 
 	Message_.Data = _Message->Data;
-	SetPos(_Message->Data.Pos);
-	SetDir(_Message->Data.Dir);
-	if( AttackCollision != nullptr )
-		AttackCollision->SetPivot(GetDir() * 150.f);
 
-	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att
-		&& !IsAttack)
-	{
-		//공격은 무조건 받아야하니까 TCP로 날리고, 처리 로직 돌리고 리턴?
-		IsAttack = true;
-
-		std::vector<GameServerCollision*> Result;
-
-		if (true == AttackCollision->CollisionCheckResult(CollisionCheckType::SPHERE, ECollisionGroup::MONSTER, CollisionCheckType::SPHERE, Result))
-		{
-			
-			for (auto result : Result)
-			{
-				Monster* MonsterPtr = result->GetOwnerActorConvert<Monster>();
-
-				if (nullptr == MonsterPtr)
-				{
-					GameServerDebug::AssertDebugMsg("몬스터에 잘못된 객체가 들어가 있었습니다.");
-					return;
-				}
-
-				MonsterPtr->ChangeState(EMonsterState::MState_Death);
-			}
-		}
-		return;
-	}
-	else if(Message_.Data.GetState<EPlayerState>() != EPlayerState::PState_Att)
-		IsAttack = false;
 	// (_Message->Data.Pos - _Message->Data.Pos).Length2D();
-	
+
+	SetPos(_Message->Data.Pos);
 	BroadcastingPlayerUpdateMessage();
 }
 
@@ -167,19 +127,18 @@ void Player::Update(float _DeltaTime)
 
 		std::string Name = UserData->SelectData.NickName;
 
-		DBQueue::Queue([=]{
-			RedisConnecter* Connecter = GameServerThread::GetLocalData<RedisConnecter>(1);
+		DBQueue::Queue([=]
+		{
+			std::shared_ptr<RedisConnecter> Connecter = GetBaseRankConntor();
 			RedisCommend::ZADD MyAdd = RedisCommend::ZADD("UserRank", 10000, Name);
 			MyAdd.Process(*Connecter);
-
-
 		});
 		// dbqueue
 	}
 
 	if (IsFrame(10))
 	{
-		if (nullptr == HitCollision || AttackCollision == nullptr)
+		if (nullptr == HitCollision)
 		{
 			return;
 		}
@@ -217,8 +176,6 @@ void Player::Update(float _DeltaTime)
 
 			HitCollision->Death();
 			HitCollision = nullptr;
-			AttackCollision->Death();
-			AttackCollision = nullptr;
 
 		}
 
@@ -242,7 +199,7 @@ GameServerSerializer& Player::GetSerializePlayerUpdateMessage()
 {
 	Message_.Data.Dir = GetDir();
 	Message_.Data.Pos = GetPos();
-	//Message_.Data.SetState<EPlayerState>(GetPlayerState)
+
 	Serializer_.Reset();
 
 	Message_.Serialize(Serializer_);
@@ -252,10 +209,6 @@ GameServerSerializer& Player::GetSerializePlayerUpdateMessage()
 
 void Player::BroadcastingPlayerUpdateMessage() 
 {
-	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att)
-	{
-		int a = 0;
-	}
 	GetSection()->UDPBroadcasting(GetSerializePlayerUpdateMessage().GetData(), GetIndex());
 }
 
@@ -310,12 +263,6 @@ void Player::SectionInitialize()
 	{
 		HitCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
 		HitCollision->SetScale({ 50.0f, 50.0f, 50.0f });
-	}
-
-	if (nullptr == AttackCollision)
-	{
-		AttackCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYERATTACK, this); 
-		AttackCollision->SetScale({ 100.0f, 100.0f, 100.0f });
 	}
 
 	UDPReady_ = false;

@@ -37,25 +37,17 @@ void InitDBConnecter(DBConnecter* _DBCon)
 		return;
 	}
 
-
-	
-
-	if (false == _DBCon->Connect(
-		GameServerCore::GetDBHost(),
+	DBConnecter::InitConntor(GameServerCore::GetDBHost(),
 		GameServerCore::GetDBUser(),
 		GameServerCore::GetDBPW(),
 		GameServerCore::GetDBName(),
-		GameServerCore::GetDBPort()))
-	{
-		std::string Error =  _DBCon->GetLastError();
-		GameServerDebug::AssertDebugMsg("DbConnecter Is Connection Error" + Error);
-		ConnectionRock.unlock();
-		return;
-	}
+		GameServerCore::GetDBPort());
 
-	GameServerThread::CreateThreadLocalData<RedisConnecter>(1);
-	RedisConnecter* RCon = GameServerThread::GetLocalData<RedisConnecter>(1);
-	RCon->Connect("127.0.0.1", 6379);
+	RedisConnecter::InitConntor("127.0.0.1", 6379);
+
+	//GameServerThread::CreateThreadLocalData<RedisConnecter>(1);
+	//RedisConnecter* RCon = GameServerThread::GetLocalData<RedisConnecter>(1);
+	// RCon->Connect("127.0.0.1", 6379);
 
 	ConnectionRock.unlock();
 }

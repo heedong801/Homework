@@ -12,7 +12,7 @@ FightZone::~FightZone()
 
 void FightZone::UserUpdate()
 {
-	if (1 >= GetAiActors().size())
+	if (0 == GetAiActors().size())
 	{
 		CreateActor<Monster>();
 	}

@@ -140,6 +140,8 @@ public:
 	TAtomic<bool> LoginProcess_;
 	std::vector<FCharacterInfo> Characters_;
 	class UListView* CharacterListView_;
+	class UListView* TopRankListView_;
+	class UListView* MyRankListView_;
 	FCharacterInfo SelectCharacter;
 	uint64_t ObjectIndex;
 	uint64_t ThreadIndex;

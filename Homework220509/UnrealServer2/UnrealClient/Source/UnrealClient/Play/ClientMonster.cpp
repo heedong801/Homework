@@ -188,8 +188,6 @@ void AClientMonster::AnimationEnd(ClientAnimationType _Value)
 {
 	if (_Value == ClientAnimationType::Attack)
 	{
-		//UE_LOG(ClientLog, Error, TEXT("ATTACK"), __FUNCTION__, __LINE__);
-
 		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
 
 //#include "../Message/ServerToClient.h"
@@ -198,11 +196,6 @@ void AClientMonster::AnimationEnd(ClientAnimationType _Value)
 //		Message->Pos = GetActorLocation();
 //		Message->UpdateType = EMonsterState::MState_Idle;
 //		Inst->PushClientMessage(Message);
-	}
-	else if (_Value == ClientAnimationType::Death)
-	{
-		UE_LOG(ClientLog, Error, TEXT("DIE"), __FUNCTION__, __LINE__);
-		Destroy();
 	}
 }
 
@@ -216,7 +209,6 @@ void AClientMonster::BeginPlay()
 
 	GetClientAnimInstance()->AddStartFunctionBind(std::bind(&AClientMonster::AnimationStart, this, std::placeholders::_1));
 	Ratio = 0.0f;
-	DestinationPos = GetActorLocation();
 }
 
 void AClientMonster::ObjectInit() 
@@ -224,7 +216,7 @@ void AClientMonster::ObjectInit()
 
 
 	CurrentUpdateData.Pos = GetActorLocation();
-	
+
 	ClientObjectInit();
 }
 
@@ -243,9 +235,6 @@ void AClientMonster::Tick(float DeltaTime)
 
 	// 5개가 들어왔는데
 	// 3번째가 디스트로이라고 봅시다.
-	FVector4 LookDir = FVector4{ 0.f, 0.f, 0.f, 0.f };
-	//UE_LOG(LogTemp, Log, TEXT("%f %f %f"), GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z);
-
 	while (false == GetMessage()->IsEmpty())
 	{
 		std::shared_ptr<GameServerMessage> Message = GetMessage()->Dequeue();
@@ -269,16 +258,10 @@ void AClientMonster::Tick(float DeltaTime)
 				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
 				break;
 			case EMonsterState::MState_Trace:
-				//UE_LOG(ClientLog, Error, TEXT("TRACE"), __FUNCTION__, __LINE__);
-
 				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
 				break;
 			case EMonsterState::MState_Att:
 				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
-				break;
-			case EMonsterState::MState_Death:
-				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Death);
-
 				break;
 			case EMonsterState::MAX:
 				break;
@@ -286,16 +269,10 @@ void AClientMonster::Tick(float DeltaTime)
 				break;
 			}
 
-			if (State_ != EMonsterState::MState_Idle)
-			{
-				UpDataData.Add(UpdateMessage->Data);
-				LookDir = UpdateMessage->Data.Dir;
-			}
-			//FVector4 Dir = UpdateMessage->Data.Dir;
-			//LookTargetZ(Dir);
-			//UpDataData.Add(UpdateMessage->Data.Pos);
+			UpDataData.Add(UpdateMessage->Data);
 
-			// SetActorLocation(UpdateMessage->Data.Pos, false, nullptr, ETeleportType::ResetPhysics);
+			LookTargetZ(UpdateMessage->Data.Dir);
+			SetActorLocation(UpdateMessage->Data.Pos, false, nullptr, ETeleportType::ResetPhysics);
 		}
 		else if (MessageId::ObjectDestroy == Message->GetId<MessageId>())
 		{
@@ -307,44 +284,37 @@ void AClientMonster::Tick(float DeltaTime)
 		//}
 	}
 
+	//FVector Pos = GetActorLocation();
 
-	FVector Pos = GetActorLocation();
-	Ratio += DeltaTime * 1.5f;
+	//if (0 != UpDataData.Num())
+	//{
+	//	if (UpDataData[0].State == static_cast<int>(EMonsterState::MState_Idle))
+	//	{
+	//		UpDataData.Pop();
+	//		return;
+	//	}
 
-	/*if (LookDir.Size() == 0)
-		LookDir = DestinationPos - Pos;*/
+	//	FVector4 LookDir = UpDataData[0].Dir;
+	//	LookTargetZ(LookDir);
 
-	LookTargetZ(DestinationPos - Pos);
+	//	Ratio += DeltaTime * 1.5f;
 
-	Pos = FMath::Lerp(CurrentUpdateData.Pos, DestinationPos, Ratio);
+	//	if (1.0f <= Ratio)
+	//	{
+	//		Ratio = 1.0f;
+	//	}
 
-	if (Ratio >= 1.f)
-	{
-		if (UpDataData.Num() != 0)
-		{	
-			if (UpDataData[0].GetState<EMonsterState>() == EMonsterState::MState_Att)
-			{
-				SetActorLocation(UpDataData[0].Pos, false, nullptr, ETeleportType::None);
-				UpDataData.Pop();
-				return;
-			}
-			UE_LOG(ClientLog, Error, TEXT("POP"), __FUNCTION__, __LINE__);
+	//	Pos = FMath::Lerp(CurrentUpdateData.Pos, UpDataData[0].Pos, Ratio);
 
-			Ratio = 0.f;
-			CurrentUpdateData.Pos = DestinationPos;
-			DestinationPos = UpDataData[0].Pos;
-			UpDataData.Pop();
-		}
-		else
-		{
-			//UE_LOG(ClientLog, Error, TEXT("FUCK"), __FUNCTION__, __LINE__);
-			Ratio = 1.f;
+	//	if (1.0f <= Ratio)
+	//	{
+	//		CurrentUpdateData = UpDataData[0];
+	//		UpDataData.Pop();
+	//		Ratio = 0.0f;
+	//	}
+	//}
 
-		}
-	}
-
-	SetActorLocation(Pos, false, nullptr, ETeleportType::None);
-
+	//SetActorLocation(Pos, false, nullptr, ETeleportType::None);
 }
 
 

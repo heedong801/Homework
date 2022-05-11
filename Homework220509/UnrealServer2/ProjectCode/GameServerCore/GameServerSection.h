@@ -22,8 +22,6 @@ private:
 		GameServerSection* NextSection;
 	};
 
-
-
 public:
 	// constrcuter destructer
 	GameServerSection();
@@ -105,8 +103,6 @@ public:
 	/*DynamicCast<GameServerActor>(), PortalPtr->LinkSection*/
 	void SectionMove(std::shared_ptr<GameServerActor> _MoveActor, GameServerSection* _MoveSection );
 
-	void DeleteAIActor(std::shared_ptr<GameServerActor> _DeleteActor);
-
 protected:
 
 
@@ -164,8 +160,6 @@ private:
 	std::vector<std::shared_ptr<GameServerActor>> WaitActor_;
 
 	std::vector<MoveActorData> MoveActors_;
-	std::vector<std::shared_ptr<GameServerActor>> DeleteActors_;
-
 
 public:
 	void ActorPost(uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message);

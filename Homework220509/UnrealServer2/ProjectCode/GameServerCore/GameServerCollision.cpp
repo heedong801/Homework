@@ -55,6 +55,12 @@ bool GameServerCollision::CollisionCheck(CollisionCheckType _ThisType, int _Orde
 		return false;
 	}
 
+	if (false == IsUpdate())
+	{
+		return false;
+	}
+
+
 	std::list<GameServerCollision*> ColList = OwnerSection->CollisionList[_Order];
 
 	if (0 == ColList.size())
@@ -92,6 +98,11 @@ bool GameServerCollision::CollisionCheckResult(CollisionCheckType _ThisType, int
 	if (nullptr == OwnerActor)
 	{
 		GameServerDebug::LogErrorAssert("액터에 속하지 않은 콜리전입니다.");
+		return false;
+	}
+
+	if (false == IsUpdate())
+	{
 		return false;
 	}
 

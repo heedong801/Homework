@@ -14,4 +14,9 @@ class UNREALCLIENT_API UUserRankItemObject : public UObject
 {
 	GENERATED_BODY()
 	
+public:
+	FString ConvertNickName;
+	int Score;
+
+
 };

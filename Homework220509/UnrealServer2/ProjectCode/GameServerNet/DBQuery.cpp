@@ -3,8 +3,10 @@
 #include "DBConnecter.h"
 #include <GameServerBase/GameServerThread.h>
 
+
+
 DBQuery::DBQuery(const char* _Query)
-	: DBConnecterPtr(GameServerThread::GetLocalData<DBConnecter>(0))
+	: DBConnecterPtr(DBConnecter::GetConnector())
 	, QueryString(_Query)
 {
 }

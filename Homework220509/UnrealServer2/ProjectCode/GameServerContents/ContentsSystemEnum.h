@@ -10,7 +10,6 @@ enum class EDataIndex
 enum class ECollisionGroup
 {
 	PLAYER,
-	PLAYERATTACK,
 	POTAL,
 	MONSTER,
 	MONSTERSENSOR,

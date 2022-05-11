@@ -57,7 +57,6 @@ private:
 	TArray<FMonsterUpdateData> UpDataData;
 	FMonsterUpdateData CurrentUpdateData;
 
-	FVector4 DestinationPos;
 	void Att(float _DelataTime);
 	void Idle(float _DelataTime);
 	void Trace(float _DelataTime);

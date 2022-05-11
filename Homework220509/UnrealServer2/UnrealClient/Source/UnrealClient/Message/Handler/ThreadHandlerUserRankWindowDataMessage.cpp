@@ -2,20 +2,20 @@
 #include "ThreadHandlerUserRankWindowDataMessage.h"
 #include "../../Global/ClientGameInstance.h"
 #include "Kismet/GameplayStatics.h"
-#include "../../CharacterSelect/CharacterListItemObject.h"
 #include "../../CharacterSelect/CharacterListItem.h"
 #include "../../Global/ClientBlueprintFunctionLibrary.h"
 #include "Components/ListView.h"
 #include "../../UnrealClient.h"
 #include "../../Play/PlayGameMode.h"
 #include "../../Play/ClientCharacter.h"
+#include "../../Play/UserRankItemObject.h"
+#include "../../Play/RankListItem.h"
+#include "Components/ListView.h"
+#include "../../Play/RankUI.h"
+
 
 void ThreadHandlerUserRankWindowDataMessage::Start()
 {
-	Message_;
-
-	int a = 0;
-
 	APlayGameMode* PGameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(World_));
 
 	if (nullptr == PGameMode
@@ -25,6 +25,25 @@ void ThreadHandlerUserRankWindowDataMessage::Start()
 		return;
 	}
 
+	//URankUI::GetTopRankListView()->ClearListItems();
+	//URankUI::GetMyRankListView()->ClearListItems();
+
+	//
+	for (size_t i = 0; i < Message_->TopUserName.size(); i++)
+	{
+		UUserRankItemObject* UserRankObject = NewObject<UUserRankItemObject>();
+		UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->TopUserName[i], UserRankObject->ConvertNickName);
+		UserRankObject->Score = Message_->TopUserScore[i];
+		// URankUI::GetTopRankListView()->AddItem(UserRankObject);
+	}
+
+	//for (size_t i = 0; i < Message_->MyUserName.size(); i++)
+	//{
+	//	UUserRankItemObject* UserRankObject = NewObject<UUserRankItemObject>();
+	//	UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->MyUserName[i], UserRankObject->ConvertNickName);
+	//	UserRankObject->Score = Message_->MyUserScore[i];
+	//	URankUI::GetMyRankListView()->AddItem(UserRankObject);
+	//}
 
 }
 

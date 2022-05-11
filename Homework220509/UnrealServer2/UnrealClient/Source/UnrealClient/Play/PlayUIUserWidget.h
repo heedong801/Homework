@@ -17,4 +17,12 @@ class UNREALCLIENT_API UPlayUIUserWidget : public UUserWidget
 	UFUNCTION(BlueprintCallable, Category = "Create")
 	void RankWindowOpen();
 
+public:
+	static void RankWindowOnOff();
+
+private:
+	static ESlateVisibility RankWindowMode;
+	static class UWidget* RankWindow;
+
+	void NativeConstruct() override;
 };

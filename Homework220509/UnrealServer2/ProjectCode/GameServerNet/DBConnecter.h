@@ -76,6 +76,15 @@ public:
 // Ό³Έν :
 class DBConnecter
 {
+private:
+	static thread_local std::vector<std::shared_ptr<DBConnecter>> AllConnector;
+
+public:
+	static bool InitConntor(const std::string& _Host, const std::string& _Id, const std::string& _Pw, const std::string& _Schema, unsigned int _Port, int _Index = 0);
+
+	static std::shared_ptr<DBConnecter> GetConnector(int _Index = 0);
+
+
 public:
 	// constrcuter destructer
 	DBConnecter();

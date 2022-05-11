@@ -1,6 +1,21 @@
 #include "PreCompile.h"
 #include "RedisConnecter.h"
 
+thread_local std::vector<std::shared_ptr<RedisConnecter>> RedisConnecter::AllConnector;
+
+
+void RedisConnecter::InitConntor(const std::string& _Host, unsigned int _Port, int _Index /*= 0*/)
+{
+	AllConnector.resize(_Index + 1);
+	AllConnector[_Index] = std::make_shared<RedisConnecter>();
+	AllConnector[_Index]->Connect(_Host, _Port);
+}
+
+std::shared_ptr<RedisConnecter> RedisConnecter::GetConnector(int _Index /*= 0*/)
+{
+	return AllConnector[_Index];
+}
+
 RedisConnecter::RedisConnecter() 
 {
 }

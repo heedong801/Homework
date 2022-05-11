@@ -174,7 +174,7 @@ public:
 	}
 	bool IsUpdate() 
 	{
-		return IsUpdate_ && false == IsDeath_;
+		return true == IsUpdate_ && false == IsDeath_;
 	}
 
 	bool IsLowLevelValid();

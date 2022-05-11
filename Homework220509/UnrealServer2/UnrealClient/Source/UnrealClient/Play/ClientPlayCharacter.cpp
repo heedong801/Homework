@@ -97,7 +97,6 @@ void AClientPlayCharacter::SendPlayerUpdatePacket()
 	UpdateMsg.Data.ObjectIndex = Inst->ObjectIndex;
 	UpdateMsg.Data.SectionIndex = Inst->SectionIndex;
 	UpdateMsg.Data.ThreadIndex = Inst->ThreadIndex;
-
 	UpdateMsg.Data.SetState(GetClientAnimInstance()->GetAnimationType());
 	// UpdateMsg.Data.SetState(EPlayerState::PState_Idle);
 
@@ -117,7 +116,6 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 	AttTimeCheck -= DeltaTime;
 
 	APlayGameMode* GameMode = Cast<APlayGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-	UE_LOG(LogTemp, Log, TEXT("%f %f %f"), GetActorForwardVector().X, GetActorForwardVector().Y, GetActorForwardVector().Z);
 
 	if (nullptr == GameMode || false == GameMode->IsValidLowLevel())
 	{
@@ -204,6 +202,11 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 		return;
 	}
 
+	if (PrevVector == GetActorLocation())
+	{
+		SendPlayerUpdatePacket();
+		return;
+	}
 
 	// UE_LOG(ClientLog, Error, TEXT("%S(%u) > %s move Packet"), __FUNCTION__, __LINE__, *GetActorLocation().ToString());
 
@@ -254,7 +257,7 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::MoveStart);
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Released, this, &AClientPlayCharacter::MoveEnd);
 
-	PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::Attack);
+	PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Released, this, &AClientPlayCharacter::Attack);
 	//PlayerInputComponent->BindAction("TestPacket0", EInputEvent::IE_Released, this, &AClientPlayCharacter::TestPacketUpdate0);
 
 	FInputModeGameAndUI InputMode;
