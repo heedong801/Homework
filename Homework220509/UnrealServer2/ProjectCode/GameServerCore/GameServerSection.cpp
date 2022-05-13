@@ -69,6 +69,18 @@ bool GameServerSection::Update(float _Time)
 		// PlayableActor_.begin();
 	}
 
+	{
+		for (size_t i = 0; i < DeleteActors_.size(); i++)
+		{
+			KeyActor_.erase(DeleteActors_[i]->GetIndex());
+			AIActor_.remove(DeleteActors_[i]);
+			DeleteActors_[i]->DeathEvent();
+			//MoveActors_[i].NextSection->MoveActor(MoveActors_[i].MoveActor);
+		}
+		DeleteActors_.clear();
+		// PlayableActor_.begin();
+	}
+
 	// 몬스터가 움직인다.
 	// 조건을 다 두겠습니다.
 	// 먼저 락을 걸지 않고.

@@ -5,7 +5,7 @@
 #include "ServerToClient.h"
 #include "GameServerCore\GameServerCore.h"
 #include "GameServerBase\GameServerThread.h"
-
+#include "Monster.h"
 #include <GameServerNet\TCPSession.h>
 #include "ContentsSystemEnum.h"
 #include "ContentsUserData.h"
@@ -19,6 +19,7 @@ Player::Player()
 	: UDPReady_(false)
 	, PortalPtr(nullptr)
 	, HitCollision(nullptr)
+	, AttackCollision(nullptr)
 {
 }
 
@@ -29,6 +30,31 @@ Player::~Player()
 	{
 		HitCollision->Death();
 		HitCollision = nullptr;
+	}
+	if (nullptr != AttackCollision)
+	{
+		AttackCollision->Death();
+		AttackCollision = nullptr;
+	}
+}
+
+void Player::AttackCollisionCheck()
+{
+	std::vector<GameServerCollision*> Result;
+
+	if (true == AttackCollision->CollisionCheckResult(CollisionCheckType::SPHERE, ECollisionGroup::MONSTER, CollisionCheckType::SPHERE, Result))
+	{
+		Monster* MonsterPtr = Result[0]->GetOwnerActorConvert<Monster>();
+
+		if (nullptr == MonsterPtr)
+		{
+			GameServerDebug::AssertDebugMsg("몬스터에 잘못된 객체가 들어가 있었습니다.");
+			return;
+		}
+
+		// 주위에 있는 다른 액터들에게 보내야하는 메세지가 됩니다.
+		MonsterPtr->ChangeState(EMonsterState::MState_Death);
+	
 	}
 }
 
@@ -54,10 +80,15 @@ void Player::PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessag
 	}
 
 	Message_.Data = _Message->Data;
-
+	SetPos(_Message->Data.Pos);
+	SetDir(_Message->Data.Dir);
+	
 	// (_Message->Data.Pos - _Message->Data.Pos).Length2D();
 
-	SetPos(_Message->Data.Pos);
+	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att)
+	{
+		AttackCollisionCheck();
+	}
 	BroadcastingPlayerUpdateMessage();
 }
 
@@ -120,7 +151,12 @@ void Player::Update(float _DeltaTime)
 {
 	MessageCheck();
 
+	if (nullptr == AttackCollision)
+	{
+		return;
+	}
 
+	AttackCollision->SetPivot(GetDir() * 105.f);
 	if (0 == (static_cast<int>(GetAccTime()) % 10) )
 	{
 		// DBQueue::Queue(std::bind(_ChildFunction, std::dynamic_pointer_cast<ChildThreadHandler>(this->shared_from_this())));
@@ -176,6 +212,9 @@ void Player::Update(float _DeltaTime)
 
 			HitCollision->Death();
 			HitCollision = nullptr;
+			AttackCollision->Death();
+			AttackCollision = nullptr;
+
 
 		}
 
@@ -264,7 +303,11 @@ void Player::SectionInitialize()
 		HitCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
 		HitCollision->SetScale({ 50.0f, 50.0f, 50.0f });
 	}
-
+	if (nullptr == AttackCollision)
+	{
+		AttackCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
+		AttackCollision->SetScale({ 100.0f, 100.0f, 100.0f });
+	}
 	UDPReady_ = false;
 }
 

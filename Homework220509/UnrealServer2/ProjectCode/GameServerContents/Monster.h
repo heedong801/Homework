@@ -31,7 +31,7 @@ protected:
 
 	// void SelfUpdateMessage();
 	GameServerSerializer& GetSerializeMonsterUpdateMessage();
-	void BroadcastingMonsterUpdateMessage();
+	void BroadcastingMonsterUpdateMessage(bool UDP = true);
 
 	GameServerCollision* PlayerSensorCollision;
 	GameServerCollision* HitCollision;
@@ -56,7 +56,7 @@ public:
 	void IdleStart();
 	void TraceStart();
 	void AttStart();
-
+	void DeathStart();
 	void IdleUpdate(float _DeltaTime);
 	void TraceUpdate(float _DeltaTime);
 	void AttUpdate(float _DeltaTime);

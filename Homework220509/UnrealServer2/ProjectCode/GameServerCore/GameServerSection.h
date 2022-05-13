@@ -160,6 +160,8 @@ private:
 	std::vector<std::shared_ptr<GameServerActor>> WaitActor_;
 
 	std::vector<MoveActorData> MoveActors_;
+	std::vector<std::shared_ptr<GameServerActor>> DeleteActors_;
+
 
 public:
 	void ActorPost(uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message);

@@ -186,6 +186,10 @@ void AClientMonster::AnimationStart(ClientAnimationType _Value)
 
 void AClientMonster::AnimationEnd(ClientAnimationType _Value) 
 {
+	//if (_Value == ClientAnimationType::Death)
+	//{
+	//	//Destroy();
+	//}
 	if (_Value == ClientAnimationType::Attack)
 	{
 		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
@@ -203,20 +207,22 @@ void AClientMonster::BeginPlay()
 {
 	Super::BeginPlay();
 
-	State_ = EMonsterState::NONE;
+	State_ = EMonsterState::MState_Idle;
 
 	GetClientAnimInstance()->AddEndFunctionBind(std::bind(&AClientMonster::AnimationEnd, this, std::placeholders::_1));
 
 	GetClientAnimInstance()->AddStartFunctionBind(std::bind(&AClientMonster::AnimationStart, this, std::placeholders::_1));
 	Ratio = 0.0f;
+	isDeath = false;
+	//UE_LOG(ClientLog, Error, TEXT("%S(%u) > BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"), __FUNCTION__, __LINE__);
+
 }
 
 void AClientMonster::ObjectInit() 
 {
-
-
 	CurrentUpdateData.Pos = GetActorLocation();
-
+	Ratio = 0.0f;
+	isDeath = false;
 	ClientObjectInit();
 }
 
@@ -262,6 +268,13 @@ void AClientMonster::Tick(float DeltaTime)
 				break;
 			case EMonsterState::MState_Att:
 				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
+				break;
+			case EMonsterState::MState_Death:
+				if (isDeath == false)
+				{
+					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Death);
+					isDeath = true;
+				}
 				break;
 			case EMonsterState::MAX:
 				break;

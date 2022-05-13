@@ -30,7 +30,7 @@ private:
 
 public:
 	void MessageCheck();
-
+	void AttackCollisionCheck();
 	void ClientToReadyMessageProcess(std::shared_ptr<class ClientToReadyMessage> _Message);
 	void PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessage> _Message);
 	void LevelMoveReplyMessageProcess(std::shared_ptr<class LevelMoveReplyMessage> _Message);
@@ -48,6 +48,8 @@ private:
 
 	// std::shared_ptr<GameServerCollision> HitCollision;
 	GameServerCollision* HitCollision;
+	GameServerCollision* AttackCollision;
+
 
 	PlayerUpdateMessage Message_;
 	GameServerSerializer Serializer_;

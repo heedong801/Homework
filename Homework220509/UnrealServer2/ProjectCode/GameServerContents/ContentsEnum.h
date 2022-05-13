@@ -23,6 +23,7 @@ enum class EPlayerState
 	PState_Idle,
 	PState_Move,
 	PState_Att,
+	PState_Death,
 	MAX,
 };
 
@@ -34,6 +35,7 @@ enum class EMonsterState
 	MState_Idle,
 	MState_Trace,
 	MState_Att,
+	MState_Death,
 	MAX,
 };
 

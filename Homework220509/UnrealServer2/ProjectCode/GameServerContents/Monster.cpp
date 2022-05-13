@@ -6,12 +6,15 @@
 
 Monster::Monster() 
 	: Target(nullptr)
+	,HitCollision(nullptr)
 	, UpdateTime(0.0f)
 {
 }
 
 Monster::~Monster() 
 {
+	Target = nullptr;
+	HitCollision = nullptr;
 }
 
 void Monster::StateUpdate(float _DeltaTime)
@@ -30,6 +33,9 @@ void Monster::StateUpdate(float _DeltaTime)
 		break;
 	case EMonsterState::MState_Att:
 		AttUpdate(_DeltaTime);
+		break;
+	case EMonsterState::MState_Death:
+		
 		break;
 	case EMonsterState::MAX:
 		break;
@@ -89,17 +95,16 @@ GameServerSerializer& Monster::GetSerializeMonsterUpdateMessage()
 	return Serializer_;
 }
 
-void Monster::BroadcastingMonsterUpdateMessage()
+void Monster::BroadcastingMonsterUpdateMessage(bool UDP)
 {
 	// 다른건 뭐 다 일어버려도 상관 없는데
 	// 공격패킷 만큼은 tcp로 보낸다.
 
 	
-	if (true)
-	{
+	if (UDP)
 		GetSection()->UDPBroadcasting(GetSerializeMonsterUpdateMessage().GetData());
-	}
-
+	else
+		GetSection()->TCPBroadcasting(GetSerializeMonsterUpdateMessage().GetData());
 }
 
 void Monster::SectionInitialize()
@@ -135,7 +140,11 @@ bool Monster::InsertSection()
 // 객체로서 삭제되는 것
 void Monster::DeathEvent() 
 {
-
+	//몬스터 오브젝트 메세지 만들고 DeleteActor 추가해서 작동하게 하기
+	ObjectDestroyMessage Message;
+	GameServerSerializer Sr;
+	Message.Serialize(Sr);
+	GetTCPSession()->Send(Sr.GetData());
 }
 
 void Monster::ChangeState(EMonsterState _State)
@@ -152,6 +161,9 @@ void Monster::ChangeState(EMonsterState _State)
 		break;
 	case EMonsterState::MState_Att:
 		AttStart();
+		break;
+	case EMonsterState::MState_Death:
+		DeathStart();
 		break;
 	case EMonsterState::MAX:
 		break;
@@ -175,6 +187,11 @@ void Monster::TraceStart()
 void Monster::AttStart() 
 {
 	AttTime = 1.0f;
+}
+
+void Monster::DeathStart()
+{
+	BroadcastingMonsterUpdateMessage(false);
 }
 
 void Monster::IdleUpdate(float _DeltaTime) 

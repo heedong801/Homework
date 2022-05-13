@@ -138,7 +138,7 @@ bool GameServerCollision::CollisionCheckResult(CollisionCheckType _ThisType, int
 
 
 void GameServerCollision::CollisionDataUpdate()
-{
+{	
 	CollisionData_.OBB.Center = (OwnerActor->GetPos() + Pivot).ConvertXMFloat3();
 	CollisionData_.OBB.Extents = Scale.HalfVector3D().ConvertXMFloat3();
 	CollisionData_.OBB.Orientation = Rot.ConvertXMFloat4();
@@ -147,7 +147,7 @@ void GameServerCollision::CollisionDataUpdate()
 void GameServerCollision::Death()
 {
 	GameServerObjectBase::Death();
-
+		
 	if (nullptr == OwnerSection)
 	{
 		GameServerDebug::AssertDebugMsg("OwnerSection Is Null!!!!!!!!");
