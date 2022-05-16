@@ -9,7 +9,10 @@ Monster::Monster()
 	: Target(nullptr)
 	, HitCollision(nullptr)
 	, UpdateTime(0.0f)
+	, IsDeath(false)
 {
+	ChangeState(EMonsterState::MState_Idle);
+
 }
 
 Monster::~Monster() 
@@ -36,7 +39,7 @@ void Monster::StateUpdate(float _DeltaTime)
 		AttUpdate(_DeltaTime);
 		break;
 	case EMonsterState::MState_Death:
-		
+		DeathUpdate(_DeltaTime);
 		break;
 	case EMonsterState::MAX:
 		break;
@@ -49,9 +52,6 @@ void Monster::StateUpdate(float _DeltaTime)
 void Monster::Update(float _Time)
 {
 	// 맵자체를 여기서 가지고 있어야할수도 있고.
-	if (IsDeath())
-		return;
-
 	UpdateTime += _Time;
 
 
@@ -75,7 +75,7 @@ void Monster::Update(float _Time)
 	//	return;
 	//}
 
-	StateUpdate(UpdateTime);
+	StateUpdate(_Time);
 
 
 	// 뭔가를 하고
@@ -210,6 +210,8 @@ void Monster::AttStart()
 
 void Monster::DeathStart()
 {
+	IsDeath = true;
+	DeleteTime = GetAccTime();
 	BroadcastingMonsterUpdateMessage(false);
 	// GetSection()->DeleteActor(DynamicCast<GameServerActor>());
 }
@@ -280,4 +282,15 @@ void Monster::AttUpdate(float _DeltaTime)
 		return;
 	}
 
+}
+
+void Monster::DeathUpdate(float _DeltaTime)
+{
+	if (GetAccTime() - DeleteTime >= 0.15f)
+	{
+		IsDeath = false;
+		GetSection()->DeleteActor(DynamicCast<GameServerActor>());
+
+		DeleteTime = 0.f;
+	}
 }

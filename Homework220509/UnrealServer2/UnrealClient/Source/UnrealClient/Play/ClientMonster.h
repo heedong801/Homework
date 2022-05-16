@@ -53,8 +53,6 @@ private:
 	MonsterInfo Info;
 	float Ratio;
 
-	bool isDeath;
-
 	// std::list<FMonsterUpdateData> UpdateList;
 	TArray<FMonsterUpdateData> UpDataData;
 	FMonsterUpdateData CurrentUpdateData;

@@ -25,10 +25,12 @@ protected:
 
 	GameServerActor* Target;
 
-
 	float UpdateTime;
 	float AttTime;
 
+	float DeleteTime;
+
+	bool IsDeath;
 	// void SelfUpdateMessage();
 	GameServerSerializer& GetSerializeMonsterUpdateMessage();
 	void BroadcastingMonsterUpdateMessage(bool UDP = true);
@@ -60,5 +62,7 @@ public:
 	void IdleUpdate(float _DeltaTime);
 	void TraceUpdate(float _DeltaTime);
 	void AttUpdate(float _DeltaTime);
+	void DeathUpdate(float _DeltaTime);
+
 };
 
