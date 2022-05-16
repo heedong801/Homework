@@ -99,6 +99,7 @@ public:
 	}
 
 	void MoveActor(std::shared_ptr<GameServerActor> _Actor);
+	void DeleteActor(std::shared_ptr<GameServerActor> _DeleteActor);
 
 	/*DynamicCast<GameServerActor>(), PortalPtr->LinkSection*/
 	void SectionMove(std::shared_ptr<GameServerActor> _MoveActor, GameServerSection* _MoveSection );

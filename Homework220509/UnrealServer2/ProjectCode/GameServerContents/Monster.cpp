@@ -3,10 +3,11 @@
 #include "GameServerCore\GameServerSection.h"
 #include <GameServerBase\GameServerMath.h>
 #include "ContentsSystemEnum.h"
+#include "Player.h"
 
-Monster::Monster() 
+Monster::Monster()
 	: Target(nullptr)
-	,HitCollision(nullptr)
+	, HitCollision(nullptr)
 	, UpdateTime(0.0f)
 {
 }
@@ -48,7 +49,9 @@ void Monster::StateUpdate(float _DeltaTime)
 void Monster::Update(float _Time)
 {
 	// 맵자체를 여기서 가지고 있어야할수도 있고.
-	
+	if (IsDeath())
+		return;
+
 	UpdateTime += _Time;
 
 
@@ -140,11 +143,27 @@ bool Monster::InsertSection()
 // 객체로서 삭제되는 것
 void Monster::DeathEvent() 
 {
-	//몬스터 오브젝트 메세지 만들고 DeleteActor 추가해서 작동하게 하기
-	ObjectDestroyMessage Message;
-	GameServerSerializer Sr;
-	Message.Serialize(Sr);
-	GetTCPSession()->Send(Sr.GetData());
+	{
+		const std::list<std::shared_ptr<GameServerActor>>& AllOtherPlayer = GetSection()->GetPlayableActor();
+
+		ObjectDestroyMessage Message;
+		Message.ObjectID = GetIndex();
+
+		GameServerSerializer Sr;
+		Message.Serialize(Sr);
+
+		for (auto& OtherActor : AllOtherPlayer)
+		{
+			// 나는 제외
+			if (GetIndex() == OtherActor->GetIndex())
+			{
+				continue;
+			}
+
+			std::shared_ptr<Player> OtherPlayer = std::dynamic_pointer_cast<Player>(OtherActor);
+			OtherPlayer->GetTCPSession()->Send(Sr.GetData());
+		}
+	}
 }
 
 void Monster::ChangeState(EMonsterState _State)
@@ -192,6 +211,7 @@ void Monster::AttStart()
 void Monster::DeathStart()
 {
 	BroadcastingMonsterUpdateMessage(false);
+	// GetSection()->DeleteActor(DynamicCast<GameServerActor>());
 }
 
 void Monster::IdleUpdate(float _DeltaTime) 

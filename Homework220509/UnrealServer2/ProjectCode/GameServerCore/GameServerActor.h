@@ -64,17 +64,6 @@ public:
 		return IsSectionMove_;
 	}
 
-	// constrcuter destructer
-	GameServerActor();
-	~GameServerActor();
-
-	// delete Function
-	GameServerActor(const GameServerActor& _Other) = delete;
-	GameServerActor(GameServerActor&& _Other) noexcept = delete;
-	GameServerActor& operator=(const GameServerActor& _Other) = delete;
-	GameServerActor& operator=(GameServerActor&& _Other) noexcept = delete;
-
-protected:
 	GameServerSection* GetSection()
 	{
 		return Section_;
@@ -89,6 +78,19 @@ protected:
 	{
 		return UDPSession_;
 	}
+
+	// constrcuter destructer
+	GameServerActor();
+	~GameServerActor();
+
+	// delete Function
+	GameServerActor(const GameServerActor& _Other) = delete;
+	GameServerActor(GameServerActor&& _Other) noexcept = delete;
+	GameServerActor& operator=(const GameServerActor& _Other) = delete;
+	GameServerActor& operator=(GameServerActor&& _Other) noexcept = delete;
+
+protected:
+	
 
 	int GetUDPPort()
 	{

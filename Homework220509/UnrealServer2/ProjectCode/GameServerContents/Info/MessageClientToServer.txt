@@ -25,3 +25,4 @@ uint64_t SectionIndex;
 
 |RankRequest-
 std::string NickName;
+

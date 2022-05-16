@@ -186,10 +186,10 @@ void AClientMonster::AnimationStart(ClientAnimationType _Value)
 
 void AClientMonster::AnimationEnd(ClientAnimationType _Value) 
 {
-	//if (_Value == ClientAnimationType::Death)
-	//{
-	//	//Destroy();
-	//}
+	if (_Value == ClientAnimationType::Death)
+	{
+		
+	}
 	if (_Value == ClientAnimationType::Attack)
 	{
 		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);

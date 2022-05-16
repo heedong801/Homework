@@ -141,6 +141,11 @@ void GameServerSection::SectionMove(std::shared_ptr<GameServerActor> _MoveActor,
 	MoveActors_.push_back({ _MoveActor, _MoveSection });
 }
 
+void GameServerSection::DeleteActor(std::shared_ptr<GameServerActor> _DeleteActor)
+{
+	DeleteActors_.push_back(_DeleteActor);
+}
+
 void GameServerSection::Release() 
 {
 	{

@@ -54,7 +54,7 @@ void Player::AttackCollisionCheck()
 
 		// 주위에 있는 다른 액터들에게 보내야하는 메세지가 됩니다.
 		MonsterPtr->ChangeState(EMonsterState::MState_Death);
-	
+		
 	}
 }
 
@@ -88,6 +88,8 @@ void Player::PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessag
 	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att)
 	{
 		AttackCollisionCheck();
+		/*GetSection()->TCPBroadcasting(GetSerializePlayerUpdateMessage().GetData(), GetIndex());
+		return;*/
 	}
 	BroadcastingPlayerUpdateMessage();
 }
@@ -352,11 +354,11 @@ void Player::DeathEvent()
 			OtherPlayer->GetTCPSession()->Send(Sr.GetData());
 		}
 	}
-
-	PlayerDestroyMessage Message;
+	
+	/*PlayerDestroyMessage Message;
 	GameServerSerializer Sr;
 	Message.Serialize(Sr);
-	GetTCPSession()->Send(Sr.GetData());
+	GetTCPSession()->Send(Sr.GetData());*/
 }
 
 void Player::DisConnect()
