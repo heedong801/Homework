@@ -74,6 +74,9 @@ void AClientOtherCharacter::Tick(float DeltaTime)
 		}
 		else if (MessageId::ObjectDestroy == Message->GetId<MessageId>())
 		{
+			std::shared_ptr<ObjectDestroyMessage> UpdateMessage = std::static_pointer_cast<ObjectDestroyMessage>(Message);
+
+
 			Destroy();
 		}
 		else if (MessageId::LevelMove == Message->GetId<MessageId>())

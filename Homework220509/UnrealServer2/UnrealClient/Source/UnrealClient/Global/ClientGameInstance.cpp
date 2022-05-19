@@ -159,6 +159,8 @@ UClientGameInstance::UClientGameInstance()
 {
 	ClientMode_ = false;
 	LoginProcess_ = false;
+	RankWindowMode = ESlateVisibility::Hidden;
+
 }
 
 UClientGameInstance::~UClientGameInstance() 

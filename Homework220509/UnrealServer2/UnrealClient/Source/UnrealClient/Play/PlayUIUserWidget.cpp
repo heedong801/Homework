@@ -10,10 +10,6 @@
 #include "../Message/ServerAndClient.h"
 #include "../UnrealClient.h"
 
-ESlateVisibility UPlayUIUserWidget::RankWindowMode = ESlateVisibility::Hidden;
-UWidget* UPlayUIUserWidget::RankWindow = nullptr;
-
-
 void UPlayUIUserWidget::RankWindowOpen()
 {
 	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -40,13 +36,21 @@ void UPlayUIUserWidget::RankWindowOpen()
 
 void UPlayUIUserWidget::RankWindowOnOff()
 {
-	switch (RankWindowMode)
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
+
+
+	switch (Inst->RankWindowMode)
 	{
 	case ESlateVisibility::Visible:
-		RankWindowMode = ESlateVisibility::Hidden;
+		Inst->RankWindowMode = ESlateVisibility::Hidden;
 		break;
 	case ESlateVisibility::Hidden:
-		RankWindowMode = ESlateVisibility::Visible;
+		Inst->RankWindowMode = ESlateVisibility::Visible;
 		break;
 	case ESlateVisibility::Collapsed:
 	case ESlateVisibility::HitTestInvisible:
@@ -57,16 +61,23 @@ void UPlayUIUserWidget::RankWindowOnOff()
 		break;
 	}
 
-	RankWindow->SetVisibility(RankWindowMode);
+	Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
 }
 
 void UPlayUIUserWidget::NativeConstruct() 
 {
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
-	RankWindow = GetWidgetFromName(TEXT("RankWindow"));
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
 
-	if (nullptr == RankWindow ||
-		false == RankWindow->IsValidLowLevel())
+	Inst->PlayUI = this;
+	Inst->RankWindow = GetWidgetFromName(TEXT("RankWindow"));
+
+	if (nullptr == Inst->RankWindow ||
+		false == Inst->RankWindow->IsValidLowLevel())
 	{
 		UE_LOG(ClientLog, Error, TEXT("Message List View Is Nullptr"));
 		return;
@@ -75,5 +86,5 @@ void UPlayUIUserWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 
-	// RankWindow->SetVisibility(RankWindowMode);
+	Inst->RankWindow->SetVisibility(Inst->RankWindowMode);
 }

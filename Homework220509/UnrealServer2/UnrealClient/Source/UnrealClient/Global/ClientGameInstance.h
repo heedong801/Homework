@@ -146,7 +146,9 @@ public:
 	uint64_t ObjectIndex;
 	uint64_t ThreadIndex;
 	uint64_t SectionIndex;
-
+	ESlateVisibility RankWindowMode;
+	class UWidget* RankWindow;
+	class UPlayUIUserWidget* PlayUI;
 public:
 	UClientGameInstance();
 	~UClientGameInstance();

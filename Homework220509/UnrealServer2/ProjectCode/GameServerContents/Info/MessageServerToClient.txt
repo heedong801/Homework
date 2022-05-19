@@ -44,6 +44,7 @@ std::vector<FPlayerUpdateData> Datas;
 |MonsterUpdate-
 FMonsterUpdateData Data;
 
+
 |UserRankWindowData-
 std::vector<std::string> TopUserName;
 std::vector<int> TopUserScore;

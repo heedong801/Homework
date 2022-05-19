@@ -25,8 +25,8 @@ void ThreadHandlerUserRankWindowDataMessage::Start()
 		return;
 	}
 
-	//URankUI::GetTopRankListView()->ClearListItems();
-	//URankUI::GetMyRankListView()->ClearListItems();
+	Inst_->TopRankListView_->ClearListItems();
+	Inst_->MyRankListView_->ClearListItems();
 
 	//
 	for (size_t i = 0; i < Message_->TopUserName.size(); i++)
@@ -34,16 +34,16 @@ void ThreadHandlerUserRankWindowDataMessage::Start()
 		UUserRankItemObject* UserRankObject = NewObject<UUserRankItemObject>();
 		UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->TopUserName[i], UserRankObject->ConvertNickName);
 		UserRankObject->Score = Message_->TopUserScore[i];
-		// URankUI::GetTopRankListView()->AddItem(UserRankObject);
+		Inst_->TopRankListView_->AddItem(UserRankObject);
 	}
 
-	//for (size_t i = 0; i < Message_->MyUserName.size(); i++)
-	//{
-	//	UUserRankItemObject* UserRankObject = NewObject<UUserRankItemObject>();
-	//	UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->MyUserName[i], UserRankObject->ConvertNickName);
-	//	UserRankObject->Score = Message_->MyUserScore[i];
-	//	URankUI::GetMyRankListView()->AddItem(UserRankObject);
-	//}
+	for (size_t i = 0; i < Message_->MyUserName.size(); i++)
+	{
+		UUserRankItemObject* UserRankObject = NewObject<UUserRankItemObject>();
+		UClientBlueprintFunctionLibrary::UTF8ToFString(Message_->MyUserName[i], UserRankObject->ConvertNickName);
+		UserRankObject->Score = Message_->MyUserScore[i];
+		Inst_->MyRankListView_->AddItem(UserRankObject);
+	}
 
 }
 

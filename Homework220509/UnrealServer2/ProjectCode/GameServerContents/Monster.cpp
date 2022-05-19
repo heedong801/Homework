@@ -77,10 +77,8 @@ void Monster::Update(float _Time)
 
 	StateUpdate(_Time);
 
-
-	// ¹º°¡¸¦ ÇÏ°í
-
-	BroadcastingMonsterUpdateMessage();
+	if(IsDeath == false)
+		BroadcastingMonsterUpdateMessage();
 	UpdateTime = 0.0f;
 }
 
@@ -88,6 +86,7 @@ GameServerSerializer& Monster::GetSerializeMonsterUpdateMessage()
 {
 	Message_.Data.Dir = GetDir();
 	Message_.Data.Pos = GetPos();
+	Message_.Data.ObjectIndex = GetIndex();
 
 	Serializer_.Reset();
 
@@ -286,11 +285,10 @@ void Monster::AttUpdate(float _DeltaTime)
 
 void Monster::DeathUpdate(float _DeltaTime)
 {
-	if (GetAccTime() - DeleteTime >= 0.15f)
+	if (GetAccTime() - DeleteTime >= 0.0125f)
 	{
 		IsDeath = false;
 		GetSection()->DeleteActor(DynamicCast<GameServerActor>());
-
 		DeleteTime = 0.f;
 	}
 }

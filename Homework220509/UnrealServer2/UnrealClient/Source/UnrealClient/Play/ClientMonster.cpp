@@ -186,6 +186,11 @@ void AClientMonster::AnimationStart(ClientAnimationType _Value)
 
 void AClientMonster::AnimationEnd(ClientAnimationType _Value) 
 {
+	if (_Value == ClientAnimationType::Death)
+	{
+		Destroyed();
+		Destroy();
+	}
 	if (_Value == ClientAnimationType::Attack)
 	{
 		GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
@@ -241,53 +246,56 @@ void AClientMonster::Tick(float DeltaTime)
 	{
 		std::shared_ptr<GameServerMessage> Message = GetMessage()->Dequeue();
 
-		if (MessageId::MonsterUpdate == Message->GetId<MessageId>())
+		if (DeathFlag == true)
 		{
-			std::shared_ptr<MonsterUpdateMessage> UpdateMessage = std::static_pointer_cast<MonsterUpdateMessage>(Message);
-
-			if (nullptr == UpdateMessage)
+			if (MessageId::ObjectDestroy == Message->GetId<MessageId>())
 			{
-				continue;
+				//UE_LOG(ClientLog, Error, TEXT("%S(%u) > ObjectDestoZZZZZZZZZZZZZZZZZZZZZZZZZZZZy"), __FUNCTION__, __LINE__);
 			}
-
-			State_ = static_cast<EMonsterState>(UpdateMessage->Data.State);
-
-			switch (State_)
-			{
-			case EMonsterState::NONE:
-				break;
-			case EMonsterState::MState_Idle:
-				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
-				break;
-			case EMonsterState::MState_Trace:
-				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
-				break;
-			case EMonsterState::MState_Att:
-				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
-				break;
-			case EMonsterState::MState_Death:
-				GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Death);
-			
-				break;
-			case EMonsterState::MAX:
-				break;
-			default:
-				break;
-			}
-
-			UpDataData.Add(UpdateMessage->Data);
-
-			LookTargetZ(UpdateMessage->Data.Dir);
-			SetActorLocation(UpdateMessage->Data.Pos, false, nullptr, ETeleportType::ResetPhysics);
+			return;
 		}
-		else if (MessageId::ObjectDestroy == Message->GetId<MessageId>())
+		else
 		{
-			Destroy();
+			if (MessageId::MonsterUpdate == Message->GetId<MessageId>())
+			{
+				std::shared_ptr<MonsterUpdateMessage> UpdateMessage = std::static_pointer_cast<MonsterUpdateMessage>(Message);
+
+				if (nullptr == UpdateMessage)
+				{
+					continue;
+				}
+
+				State_ = static_cast<EMonsterState>(UpdateMessage->Data.State);
+
+				switch (State_)
+				{
+				case EMonsterState::NONE:
+					break;
+				case EMonsterState::MState_Idle:
+					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Idle);
+					break;
+				case EMonsterState::MState_Trace:
+					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Move);
+					break;
+				case EMonsterState::MState_Att:
+					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Attack);
+					break;
+				case EMonsterState::MState_Death:
+					GetClientAnimInstance()->ChangeAnimation(ClientAnimationType::Death);
+					DeathFlag = true;
+					break;
+				case EMonsterState::MAX:
+					break;
+				default:
+					break;
+				}
+
+				UpDataData.Add(UpdateMessage->Data);
+
+				LookTargetZ(UpdateMessage->Data.Dir);
+				SetActorLocation(UpdateMessage->Data.Pos, false, nullptr, ETeleportType::ResetPhysics);
+			}
 		}
-		//else if (MessageId::ObjectDestroy == Message->GetId())
-		//{
-		//	int a = 0;
-		//}
 	}
 
 	//FVector Pos = GetActorLocation();

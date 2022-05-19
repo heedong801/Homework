@@ -16,19 +16,16 @@ class UNREALCLIENT_API URankUI : public UUserWidget
 
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat")
+	class UListView* TopRankListView_;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Chat")
+		class UListView* MyRankListView_;
+
+
 	UFUNCTION(BlueprintCallable, Category = "Create")
 	void NewRankAdd(UObject* _Object, UUserWidget* _Widget);
 
-	//static class UListView* GetTopRankListView()
-	//{
-	//	return TopRankListView_;
-	//}
-
-	//static class UListView* GetMyRankListView()
-	//{
-	//	return MyRankListView_;
-	//}
-	void Test();
 
 protected:
 	void NativeConstruct() override;

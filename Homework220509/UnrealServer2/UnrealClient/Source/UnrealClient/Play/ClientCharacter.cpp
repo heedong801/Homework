@@ -57,10 +57,7 @@ void AClientCharacter::Destroyed()
 	{
 		return;
 	}
-
-
 	PGameMode->UnRegistObject(ObjectID_, GetObjectType(), this);
-	int a = 0;
 }
 
 float AClientCharacter::LookTargetAddZ(AActor* _Target, float _Ratio)

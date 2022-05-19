@@ -49,6 +49,9 @@ void URankUI::NativeConstruct()
 	Inst->TopRankListView_ = Cast<UListView>(GetWidgetFromName(TEXT("TopRankList")));
 	Inst->MyRankListView_ = Cast<UListView>(GetWidgetFromName(TEXT("MyRankList")));
 
+	TopRankListView_ = Inst->TopRankListView_;
+	MyRankListView_ = Inst->MyRankListView_;
+
 	// RankListView_->ClearListItems();
 
 
@@ -89,43 +92,3 @@ void URankUI::NativeConstruct()
 
 }
 
-
-void URankUI::Test()
-{
-
-	UClientGameInstance* Inst = Cast<UClientGameInstance>(GetGameInstance());
-
-	if (nullptr == Inst->TopRankListView_
-		|| false == Inst->TopRankListView_->IsValidLowLevel())
-	{
-		int a = 0;
-		return;
-	}
-
-
-	if (nullptr == Inst->MyRankListView_
-		|| false == Inst->MyRankListView_->IsValidLowLevel())
-	{
-		int a = 0;
-		return;
-	}
-
-	Inst->TopRankListView_->ClearListItems();
-	Inst->MyRankListView_->ClearListItems();
-
-	for (size_t i = 0; i < 5; i++)
-	{
-		UUserRankItemObject* UserRankObject = NewObject<UUserRankItemObject>();
-		UserRankObject->ConvertNickName = TEXT("Test");
-		UserRankObject->Score = 100000;
-		Inst->TopRankListView_->AddItem(UserRankObject);
-	}
-
-	for (size_t i = 0; i < 5; i++)
-	{
-		UUserRankItemObject* UserRankObject = NewObject<UUserRankItemObject>();
-		UserRankObject->ConvertNickName = TEXT("Test");
-		UserRankObject->Score = 100000;
-		Inst->MyRankListView_->AddItem(UserRankObject);
-	}
-}

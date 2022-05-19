@@ -21,6 +21,8 @@ void ThreadHandlerObjectDestroyMessage::Start()
 		UE_LOG(ClientLog, Error, TEXT("%S(%u) > GameMode Is nullptr"), __FUNCTION__, __LINE__);
 		return;
 	}
+	//UE_LOG(ClientLog, Error, TEXT("%S(%u) > ObjectDestoRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRy"), __FUNCTION__, __LINE__);
+	//UE_LOG(ClientLog, Error, TEXT("Character Stamina :: %d"), Message_->ObjectID);
 
 	PGameMode->ObjectPushMessage(Message_->ObjectID, Message_);
 }
