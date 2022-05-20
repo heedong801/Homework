@@ -22,7 +22,7 @@ private: // Member Function
 	static GameServerQueue JobQueue;
 
 public:
-	static GameServerQueue& GetQueue() 
+	static GameServerQueue& GetQueue()
 	{
 		return JobQueue;
 	}

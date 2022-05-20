@@ -10,8 +10,6 @@ void GameServerQueue::QueueFunction(std::shared_ptr<GameServerIocpWorker> _Work,
 		GameServerDebug::AssertDebugMsg("큐 쓰레드 생성에 실패했습니다.");
 	}
 
-	GameServerThread::ThreadNameSetting(_Name + " " + std::to_string(_Work->GetIndex()));
-
 	_this->Run(_Work);
 }
 
@@ -22,7 +20,12 @@ GameServerQueue::GameServerQueue()
 
 }
 
-GameServerQueue::GameServerQueue(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName, std::function<void(GameServerThread*)> _InitFunction)
+GameServerQueue::GameServerQueue(
+	WORK_TYPE _Type,
+	int threadCount,
+	const std::string& _ThreadName,
+	std::function<void()> _InitFunction
+)
 // : Iocp(std::bind(GameServerQueue::QueueFunction, std::placeholders::_1, this), threadCount)
 {
 	Initialize(_Type, threadCount, _ThreadName, _InitFunction);
@@ -33,15 +36,20 @@ GameServerQueue::~GameServerQueue()
 	Destroy();
 }
 
-void GameServerQueue::Initialize(int threadCount) 
+void GameServerQueue::Initialize(int threadCount)
 {
 	Iocp.InitializeIocpHandle(threadCount);
 }
 
-void GameServerQueue::Initialize(WORK_TYPE _Type, int threadCount, const std::string& _ThreadName, std::function<void(GameServerThread*)> _InitFunction)
+void GameServerQueue::Initialize(
+	WORK_TYPE _Type,
+	int threadCount,
+	const std::string& _ThreadName,
+	std::function<void()> _InitFunction
+)
 {
 	SetWorkType(_Type);
-	Iocp.Initialize(std::bind(GameServerQueue::QueueFunction, std::placeholders::_1, this, _ThreadName), INFINITE, threadCount, _InitFunction);
+	Iocp.Initialize(_ThreadName, std::bind(GameServerQueue::QueueFunction, std::placeholders::_1, this, _ThreadName), _InitFunction, nullptr, INFINITE, threadCount);
 }
 
 GameServerQueue::GameServerQueue(GameServerQueue&& _Other) noexcept
@@ -149,7 +157,7 @@ GameServerQueue::QUEUE_RETURN GameServerQueue::WorkExtension(std::shared_ptr<Gam
 	return GameServerQueue::QUEUE_RETURN::OK;
 }
 
-void GameServerQueue::EnQueue(const std::function<void()>& _callback) 
+void GameServerQueue::EnQueue(const std::function<void()>& _callback)
 {
 	if (nullptr == _callback)
 	{
@@ -254,7 +262,7 @@ GameServerQueue::QUEUE_RETURN GameServerQueue::ExecuteOriginal(DWORD _Time)
 				JobTesk->task_(Result, NumberOfBytesTransferred, lpOverlapped);
 			}
 		}
-		
+
 		// 말그대로 아무것도 없어서 그냥 나온겁니다.
 		// 타임아웃이건 뭐건 일이 없다.
 		return GameServerQueue::QUEUE_RETURN::EMPTY;

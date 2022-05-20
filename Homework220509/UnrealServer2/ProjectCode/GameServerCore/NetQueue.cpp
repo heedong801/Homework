@@ -15,7 +15,7 @@ NetQueue::~NetQueue()
 
 
 void NetQueue::Init() {
-	JobQueue.Initialize(GameServerQueue::WORK_TYPE::Default, 8, "NetThread");
+	JobQueue.Initialize(GameServerQueue::WORK_TYPE::Default, 8, "NetThread", nullptr);
 }
 
 void NetQueue::Queue(const std::function<void()>& CallBack)

@@ -31,37 +31,27 @@ BOOL GameServerIocpWorker::Wait()
 	// CompletionKey가 나올거다.
 	// 그 소켓들은 감시 받게 되었어
 	// 진짜 일들이 있어요?
-	
+
 
 	// AcceptEx
 	// WsaRecv
 	// WsaSend
 	// OverLapped 들을 넣어준다.
 	// 호출할때마다 다른 오브랩드들을
-	
+
 	// TranmitFile (디스커넥트)
 	// OverLappet
-	
+
 	// CompletionKey => OverlappedJOB 
 	// lpOverlapped => AcceptExOverapped
 	//              => SendExOverapped
-	
+
 
 	// 한 소켓에 send와 리시브가 동시에 일어날수 있잖아요?
 	// 그걸 동시에 처리하려는게 비동기잖아요!!!
 	// 
 
 	return GetQueuedCompletionStatus(IocpHandle, &NumberOfBytesTransferred, &CompletionKey, &lpOverlapped, Time);
-}
-
-GameServerIocp::GameServerIocp(std::function<void(std::shared_ptr<GameServerIocpWorker>)> _Func, int threadCount/* = 0*/)
-{
-	Initialize(_Func, INFINITE, threadCount, nullptr);
-}
-
-GameServerIocp::GameServerIocp(std::function<void(std::shared_ptr<GameServerIocpWorker>)> _Func, DWORD _Time, int threadCount = 0)
-{
-	Initialize(_Func, _Time, threadCount, nullptr);
 }
 
 GameServerIocp::~GameServerIocp()
@@ -72,7 +62,7 @@ GameServerIocp::~GameServerIocp()
 	}
 }
 
-GameServerIocp::GameServerIocp() 
+GameServerIocp::GameServerIocp()
 	: Iocp_(NULL)
 {
 
@@ -88,14 +78,18 @@ void GameServerIocp::InitializeIocpHandle(int Count)
 	Iocp_ = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, NULL, Count);
 }
 
-void GameServerIocp::Initialize(std::function<void(std::shared_ptr<GameServerIocpWorker>)> _Func, DWORD _Time, int threadCount, std::function<void(GameServerThread*)> _InitFunction)
+void GameServerIocp::Initialize(std::string ThreadName,
+	std::function<void(std::shared_ptr<GameServerIocpWorker>)> _Func,
+	std::function<void()> _Init,
+	std::function<void()> _End,
+	DWORD _Time,
+	int threadCount)
 {
 	// 윈도우 종속적
 	if (128 <= threadCount)
 	{
 		return;
 	}
-
 
 	if (0 >= threadCount)
 	{
@@ -108,16 +102,16 @@ void GameServerIocp::Initialize(std::function<void(std::shared_ptr<GameServerIoc
 
 	for (int i = 0; i < threadCount; i++)
 	{
-		AddThread(_Func, _Time, i);
+		AddThread(ThreadName, _Func, _Init, _End, _Time, i);
 	}
 }
 
-void GameServerIocp::AddThread(std::function<void(std::shared_ptr<GameServerIocpWorker>)> _Func, DWORD _Time, unsigned int _Order = 0)
+void GameServerIocp::AddThread(std::string _Name, std::function<void(std::shared_ptr<GameServerIocpWorker>)> _Func, std::function<void()> _InitFunction, std::function<void()> _EndFunction, DWORD _Time, unsigned int _Order = 0)
 {
 	iocpLock.lock();
 	std::shared_ptr<GameServerIocpWorker> NewWork = std::make_shared<GameServerIocpWorker>(Iocp_, threadWorkerList_.size(), _Time);
 	threadWorkerList_.push_back(NewWork);
-	std::shared_ptr<GameServerThread> NewThread = std::make_shared<GameServerThread>(_Func, NewWork);
+	std::shared_ptr<GameServerThread> NewThread = std::make_shared<GameServerThread>(_Name, std::bind(_Func, NewWork), _InitFunction, _EndFunction);
 	threadList_.push_back(NewThread);
 	NewThread->SetThreadOrder(_Order);
 	iocpLock.unlock();
@@ -143,7 +137,7 @@ bool GameServerIocp::Bind(HANDLE _Handle, ULONG_PTR _CompletionKey) const
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 

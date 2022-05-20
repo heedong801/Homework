@@ -9,15 +9,33 @@
 // 용도 : 
 // 분류 :
 // 첨언 : 
-class GameServerThread  : public GameServerNameBase
+class GameServerThread : public GameServerNameBase
 {
-public:
+private:
 	static void ThreadNameSetting(const std::string& _Name);
 
-	static std::string GetThreadName();
-
 private: // Member Var
-	std::thread thread_;
+	static void ThreadFunction(GameServerThread* Thread)
+	{
+		GameServerThread::ThreadNameSetting(Thread->GetNameCopy());
+
+		if (nullptr != Thread->StartFunction)
+		{
+			Thread->StartFunction();
+		}
+
+		if (nullptr != Thread->MainFunction)
+		{
+			Thread->MainFunction();
+		}
+
+		if (nullptr != Thread->EndFunction)
+		{
+			Thread->EndFunction();
+		}
+
+	}
+
 	static thread_local std::string name_;
 	static thread_local unsigned int Order_;
 	static thread_local std::map<size_t, const std::type_info*> LocalDataType_;
@@ -27,6 +45,8 @@ protected:
 	static thread_local GameServerTime Timer_;
 
 public:
+	static std::string GetThreadName();
+
 	inline std::thread::id ThreadId()
 	{
 		return thread_.get_id();
@@ -37,7 +57,7 @@ public:
 		Order_ = _Order;
 	}
 
-	static int GetThreadOrder() 
+	static int GetThreadOrder()
 	{
 		return Order_;
 	}
@@ -95,37 +115,49 @@ public:
 	}
 
 public: // Default
-	template <class _Fn, class... _Args, std::enable_if_t<!std::is_same_v<std::_Remove_cvref_t<_Fn>, std::thread>, int> = 0>
-	explicit GameServerThread(std::string _name, _Fn&& _Fx, _Args&&... _Ax)
+	GameServerThread(std::string _Name, std::function<void()> _MainFunction, std::function<void()> _StartFunction = nullptr, std::function<void()> _EndFunction = nullptr)
 	{
-		thread_ = std::thread(_Fx, _Ax...);
+		Start(_Name, _MainFunction, _StartFunction, _EndFunction);
 	}
 
-	template <class _Fn, class... _Args, std::enable_if_t<!std::is_same_v<std::_Remove_cvref_t<_Fn>, std::thread>, int> = 0>
-	explicit GameServerThread(_Fn&& _Fx, _Args&&... _Ax) 
-		: thread_(_Fx, _Ax...)
+	GameServerThread()
+		: MainFunction(nullptr)
+		, EndFunction(nullptr)
+		, StartFunction(nullptr)
 	{
-		// _Start(_STD forward<_Fn>(_Fx), _STD forward<_Args>(_Ax)...);
-	}
 
-	GameServerThread(){}
+
+	}
 
 	~GameServerThread();
 
 	GameServerThread(const GameServerThread& _Other) = delete;
 	GameServerThread(GameServerThread&& _Other) noexcept;
 
+public: // Member Function
+	void join();
+	void Start(std::string _Name, std::function<void()> _MainFunction, std::function<void()> _StartFunction = nullptr, std::function<void()> _EndFunction = nullptr)
+	{
+		MainFunction = _MainFunction;
+		StartFunction = _StartFunction;
+		EndFunction = _EndFunction;
+
+		SetName(_Name);
+		thread_ = std::thread(&GameServerThread::ThreadFunction, this);
+	}
+
 protected:
 	GameServerThread& operator=(const GameServerThread& _Other) = delete;
 	GameServerThread& operator=(GameServerThread&& _Other) = delete;
 
-public: // Member Function
-	void join();
+private:
+	std::thread thread_;
 
-	template <class _Fn, class... _Args, std::enable_if_t<!std::is_same_v<std::_Remove_cvref_t<_Fn>, std::thread>, int> = 0>
-	void Start(_Fn&& _Fx, _Args&&... _Ax)
-	{
-		thread_ = std::thread(_Fx, _Ax...);
-	}
+	std::function<void()> StartFunction;
+	std::function<void()> MainFunction;
+	std::function<void()> EndFunction;
+
+
+
 };
 

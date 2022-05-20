@@ -50,7 +50,8 @@ private:
 	GameServerCollision* HitCollision;
 	GameServerCollision* AttackCollision;
 
-
+	float AttTime;
+	bool IsAttack;
 	PlayerUpdateMessage Message_;
 	GameServerSerializer Serializer_;
 

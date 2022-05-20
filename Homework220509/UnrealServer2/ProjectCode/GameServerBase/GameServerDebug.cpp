@@ -4,33 +4,33 @@
 #include <iostream>
 #include "GameServerIocp.h"
 
-const char* GameServerDebug::TypeText[4] = {"ERROR	: ", "WARNING	: ", "INFO	: ", "LASTERROR	: " };
+const char* GameServerDebug::TypeText[4] = { "ERROR	: ", "WARNING	: ", "INFO	: ", "LASTERROR	: " };
 
 std::atomic<int> GameServerDebug::LogCount;
 GameServerIocp* GameServerDebug::LogIocp = new GameServerIocp();
 
-GameServerDebug::GameServerDebug() 
+GameServerDebug::GameServerDebug()
 {
 
 }
 
-GameServerDebug::~GameServerDebug() 
+GameServerDebug::~GameServerDebug()
 {
 
 }
 
 GameServerDebug::GameServerDebug(GameServerDebug&& _Other) noexcept
 {
-
+	int a = 0;
 }
 
-void GameServerDebug::AssertDebugMsg(const std::string& _Msg) 
+void GameServerDebug::AssertDebugMsg(const std::string& _Msg)
 {
 	MessageBoxA(nullptr, _Msg.c_str(), "경고창", MB_OK);
 	GameServerDebug::AssertDebug();
 }
 
-void GameServerDebug::AssertDebug() 
+void GameServerDebug::AssertDebug()
 {
 	assert(false);
 }
@@ -52,7 +52,7 @@ void GameServerDebug::LogThread(std::shared_ptr<GameServerIocpWorker> _Work)
 }
 
 
-void GameServerDebug::Initialize() 
+void GameServerDebug::Initialize()
 {
 	static bool Check = false;
 	if (true == Check)
@@ -62,10 +62,10 @@ void GameServerDebug::Initialize()
 
 	Check = true;
 
-	LogIocp->Initialize(&GameServerDebug::LogThread, INFINITE, 1, nullptr);
+	LogIocp->Initialize("LogThread", &GameServerDebug::LogThread, nullptr, nullptr, INFINITE, 1);
 }
 
-void GameServerDebug::Destroy() 
+void GameServerDebug::Destroy()
 {
 	// 이 디스트로이를 호출하는 쓰레드가 
 	LogIocp->Post(-1, 0);
@@ -93,11 +93,11 @@ void GameServerDebug::LogErrorAssert(const std::string& _Text)
 	LogAssert(LOGTYPE::LOGTYPE_ERROR, _Text);
 }
 
-void GameServerDebug::LogError(const std::string& _Text) 
+void GameServerDebug::LogError(const std::string& _Text)
 {
 	Log(LOGTYPE::LOGTYPE_ERROR, _Text);
 }
-void GameServerDebug::LogWarning(const std::string& _Text) 
+void GameServerDebug::LogWarning(const std::string& _Text)
 {
 	Log(LOGTYPE::LOGTYPE_WARNING, _Text);
 }
@@ -111,13 +111,13 @@ void GameServerDebug::LogLastError(const std::string& _Text)
 	Log(LOGTYPE::LOGTYPE_LASTERROR, _Text);
 }
 
-void GameServerDebug::GetLastErrorPrint() 
+void GameServerDebug::GetLastErrorPrint()
 {
 	DWORD error = WSAGetLastError();
 	char* message = nullptr;
 
 	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-		nullptr, 
+		nullptr,
 		error,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(char*)&message,

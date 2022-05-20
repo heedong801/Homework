@@ -20,6 +20,7 @@ Player::Player()
 	, PortalPtr(nullptr)
 	, HitCollision(nullptr)
 	, AttackCollision(nullptr)
+	, IsAttack(false)
 {
 }
 
@@ -85,9 +86,10 @@ void Player::PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessag
 	
 	// (_Message->Data.Pos - _Message->Data.Pos).Length2D();
 
-	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att)
+	if (Message_.Data.GetState<EPlayerState>() == EPlayerState::PState_Att && IsAttack == false)
 	{
-		AttackCollisionCheck();
+		AttTime = GetAccTime();
+		IsAttack = true;
 		/*GetSection()->TCPBroadcasting(GetSerializePlayerUpdateMessage().GetData(), GetIndex());
 		return;*/
 	}
@@ -159,6 +161,15 @@ void Player::Update(float _DeltaTime)
 	}
 
 	AttackCollision->SetPivot(GetDir() * 105.f);
+
+	//Attack Check
+	if (GetAccTime() - AttTime >= 0.5f)
+	{
+		AttackCollisionCheck();
+		AttTime = 0;
+		IsAttack = false;
+	}
+
 	if (0 == (static_cast<int>(GetAccTime()) % 10) )
 	{
 		// DBQueue::Queue(std::bind(_ChildFunction, std::dynamic_pointer_cast<ChildThreadHandler>(this->shared_from_this())));

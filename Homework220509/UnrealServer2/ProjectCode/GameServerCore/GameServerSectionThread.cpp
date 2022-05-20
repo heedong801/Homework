@@ -14,7 +14,6 @@ GameServerSectionThread::~GameServerSectionThread()
 // 쓰레드 실행함수.
 void GameServerSectionThread::ThreadFunction(int _Index)
 {
-	ThreadNameSetting(GetNameCopy());
 	SetThreadOrder(_Index);
 
 	SectionThreadQueue.Initialize(1);
@@ -118,7 +117,7 @@ void GameServerSectionThread::RemoveSection(std::shared_ptr<GameServerSection> _
 
 void GameServerSectionThread::StartSectionThread(int _Index)
 {
-	Start(std::bind(& GameServerSectionThread::ThreadFunction, this, _Index));
+	Start("SectionThread", std::bind(&GameServerSectionThread::ThreadFunction, this, _Index), nullptr, nullptr);
 }
 
 void GameServerSectionThread::ActorPost(uint64_t SectionIndex, uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message)
