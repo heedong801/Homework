@@ -9,12 +9,14 @@ class ChatMessage : public GameServerMessage
 public:                                                         
 	std::string ID;
 	std::string Message;
+	int MessagaType;
                                                                 
 public:                                                         
     ChatMessage()                                               
         : GameServerMessage(static_cast<uint32_t>(MessageId::Chat))                    
         , ID()
         , Message()
+        , MessagaType()
     {                                                           
                                                                 
     }                                                           
@@ -23,7 +25,7 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(ID) + DataSizeCheck(Message);
+		return DataSizeCheck(ID) + DataSizeCheck(Message) + DataSizeCheck(MessagaType);
     }                                                           
                                                                 
     void Serialize(GameServerSerializer& _Serializer)           
@@ -31,6 +33,7 @@ public:
         GameServerMessage::Serialize(_Serializer);              
         _Serializer << ID;
         _Serializer << Message;
+        _Serializer << MessagaType;
 
     }                                                           
                                                                 
@@ -39,6 +42,7 @@ public:
         GameServerMessage::DeSerialize(_Serializer);            
         _Serializer >> ID;
         _Serializer >> Message;
+        _Serializer >> MessagaType;
 
     }                                                           
 };                                                              

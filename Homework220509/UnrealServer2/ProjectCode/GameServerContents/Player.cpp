@@ -163,7 +163,7 @@ void Player::Update(float _DeltaTime)
 	AttackCollision->SetPivot(GetDir() * 105.f);
 
 	//Attack Check
-	if (GetAccTime() - AttTime >= 0.5f)
+	if (IsAttack && GetAccTime() - AttTime >= 0.5f)
 	{
 		AttackCollisionCheck();
 		AttTime = 0;
@@ -319,7 +319,7 @@ void Player::SectionInitialize()
 	if (nullptr == AttackCollision)
 	{
 		AttackCollision = GetSection()->CreateCollision(ECollisionGroup::PLAYER, this);
-		AttackCollision->SetScale({ 100.0f, 100.0f, 100.0f });
+		AttackCollision->SetScale({ 125.0f, 125.0f, 100.0f });
 	}
 	UDPReady_ = false;
 }

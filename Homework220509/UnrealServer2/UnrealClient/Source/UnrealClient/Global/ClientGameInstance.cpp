@@ -374,3 +374,14 @@ bool UClientGameInstance::IsEmptyMessage()
 {
 	return MessageQueue_.IsEmpty();
 }
+
+
+void UClientGameInstance::SetMsgType(EChatMessageType MsgType)
+{
+	ChatMessageType = static_cast<int>(MsgType);
+}
+
+int UClientGameInstance::GetMsgType()
+{
+	return static_cast<int>(ChatMessageType);
+}

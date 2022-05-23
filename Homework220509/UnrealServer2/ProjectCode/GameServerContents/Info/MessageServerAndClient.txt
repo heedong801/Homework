@@ -1,6 +1,7 @@
 |Chat-
 std::string ID;
 std::string Message;
+int MessagaType;
 
 |PlayerUpdate-
 FPlayerUpdateData Data;

@@ -10,6 +10,7 @@
 #include <functional>
 #include "../Message/Messages.h"
 #include "../Message/ContentsStructure.h"
+#include "../Message/ContentsEnum.h"
 #include "../Play/ChatWindow.h"
 #include "Interfaces/IPv4/IPv4Address.h"
 #include "Interfaces/IPv4/IPv4Endpoint.h"
@@ -149,6 +150,8 @@ public:
 	ESlateVisibility RankWindowMode;
 	class UWidget* RankWindow;
 	class UPlayUIUserWidget* PlayUI;
+
+	int ChatMessageType;
 public:
 	UClientGameInstance();
 	~UClientGameInstance();
@@ -172,4 +175,8 @@ public:
 	//bool Recv();
 
 	void FinishDestroy() override;
+
+	void SetMsgType(EChatMessageType MsgType);
+
+	int GetMsgType();
 };

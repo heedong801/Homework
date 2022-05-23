@@ -95,6 +95,6 @@ void UChatWindow::NewMessageAdd(UObject* _Object, UUserWidget* _Widget)
 	{
 		return;
 	}
-
+	
 	Widget->ChatString = Info->ID_ + TEXT(" : ") + Info->Message_;
 }
