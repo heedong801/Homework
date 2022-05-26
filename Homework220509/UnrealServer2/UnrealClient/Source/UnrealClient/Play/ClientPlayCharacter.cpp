@@ -309,8 +309,9 @@ void AClientPlayCharacter::SetChatTypeOne()
 		//UE_LOG(ClientLog, Log, TEXT("Character FName :: %s"), *HitResult.Actor->GetName());
 
 		AClientOtherCharacter* OtherPlayer = Cast<AClientOtherCharacter>(HitResult.Actor);
-		Inst->TargetObjectIndex = OtherPlayer->ObjectIndex;
-		UE_LOG(ClientLog, Log, TEXT("Character FName :: %d"), Inst->TargetObjectIndex);
+		if(OtherPlayer)
+			Inst->TargetObjectIndex = OtherPlayer->ObjectIndex;
+		//UE_LOG(ClientLog, Log, TEXT("Character FName :: %d"), Inst->TargetObjectIndex);
 	}
 
 	Inst->SetMsgType(EChatMessageType::ONEPLAYER);

@@ -73,15 +73,30 @@ void UChatWindow::ChatSend(FString _Text, ETextCommit::Type _Type)
 
 	CMessage.ID = ID;
 	CMessage.Message = Message;
-	CMessage.MessagaType = Inst->GetMsgType();
 
-	if (CMessage.MessagaType == static_cast<int>(EChatMessageType::ONEPLAYER) && Inst->TargetObjectIndex != 0)
+	if (Inst->ChatMessageType == static_cast<int>(EChatMessageType::ONEPLAYER))
 	{
-		CMessage.ObjectIndex = Inst->TargetObjectIndex;
-		Inst->TargetObjectIndex = 0;
+		if (Inst->TargetObjectIndex != 0)
+		{
+			CMessage.ObjectIndex = Inst->TargetObjectIndex;
+			CMessage.MessagaType = Inst->GetMsgType();
+			Inst->SetMsgType(EChatMessageType::INSECTION);
+			Inst->TargetObjectIndex = 0;
+		}
+		else
+		{
+			Inst->SetMsgType(EChatMessageType::INSECTION);
+			CMessage.MessagaType = Inst->GetMsgType();
+			CMessage.ObjectIndex = Inst->GetClientIndex();
+		}
 	}
 	else
+	{
 		CMessage.ObjectIndex = Inst->GetClientIndex();
+		CMessage.MessagaType = Inst->GetMsgType();
+	}
+
+
 	CMessage.ThreadIndex = Inst->ThreadIndex;
 	CMessage.SectionIndex = Inst->SectionIndex;
 
