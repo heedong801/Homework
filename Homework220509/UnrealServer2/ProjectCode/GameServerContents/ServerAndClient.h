@@ -10,6 +10,9 @@ public:
 	std::string ID;
 	std::string Message;
 	int MessagaType;
+	uint64_t ObjectIndex;
+	uint64_t ThreadIndex;
+	uint64_t SectionIndex;
                                                                 
 public:                                                         
     ChatMessage()                                               
@@ -17,6 +20,9 @@ public:
         , ID()
         , Message()
         , MessagaType()
+        , ObjectIndex()
+        , ThreadIndex()
+        , SectionIndex()
     {                                                           
                                                                 
     }                                                           
@@ -25,7 +31,7 @@ public:
                                                                 
     virtual int SizeCheck()                                     
     {                                                           
-		return DataSizeCheck(ID) + DataSizeCheck(Message) + DataSizeCheck(MessagaType);
+		return DataSizeCheck(ID) + DataSizeCheck(Message) + DataSizeCheck(MessagaType) + DataSizeCheck(ObjectIndex) + DataSizeCheck(ThreadIndex) + DataSizeCheck(SectionIndex);
     }                                                           
                                                                 
     void Serialize(GameServerSerializer& _Serializer)           
@@ -34,6 +40,9 @@ public:
         _Serializer << ID;
         _Serializer << Message;
         _Serializer << MessagaType;
+        _Serializer << ObjectIndex;
+        _Serializer << ThreadIndex;
+        _Serializer << SectionIndex;
 
     }                                                           
                                                                 
@@ -43,6 +52,9 @@ public:
         _Serializer >> ID;
         _Serializer >> Message;
         _Serializer >> MessagaType;
+        _Serializer >> ObjectIndex;
+        _Serializer >> ThreadIndex;
+        _Serializer >> SectionIndex;
 
     }                                                           
 };                                                              

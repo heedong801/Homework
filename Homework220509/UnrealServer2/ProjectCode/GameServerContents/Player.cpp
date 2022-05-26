@@ -10,6 +10,7 @@
 #include "ContentsSystemEnum.h"
 #include "ContentsUserData.h"
 #include "CharacterTable.h"
+#include "ContentsEnum.h"
 #include "GameServerBase\GameServerDebug.h"
 #include <GameServerCore\GameServerSection.h>
 #include <GameServerCore\DBQueue.h>
@@ -127,7 +128,16 @@ void Player::ClientToReadyMessageProcess(std::shared_ptr<ClientToReadyMessage> _
 		BroadcastingPlayerUpdateMessage();
 	}
 
-	SelfUpdateMessage();
+	SelfTCPMessage(GetSerializePlayerUpdateMessage().GetData());
+}
+
+
+void Player::ChatMessageProcess(std::shared_ptr<class ChatMessage> _Message)
+{
+	GameServerSerializer Sr;
+	_Message->Serialize(Sr);
+
+	SelfTCPMessage(Sr.GetData());
 }
 
 void Player::LevelMoveReplyMessageProcess(std::shared_ptr<class LevelMoveReplyMessage> _Message)
@@ -264,9 +274,14 @@ void Player::BroadcastingPlayerUpdateMessage()
 	GetSection()->UDPBroadcasting(GetSerializePlayerUpdateMessage().GetData(), GetIndex());
 }
 
-void Player::SelfUpdateMessage()
+//void Player::SelfUpdateMessage(std::vector<unsigned char> data)
+//{
+//	GetTCPSession()->Send(data);
+//}
+
+void Player::SelfTCPMessage(std::vector<unsigned char> data)
 {
-	GetTCPSession()->Send(GetSerializePlayerUpdateMessage().GetData());
+	GetTCPSession()->Send(data);
 }
 
 bool Player::InsertSection() 
@@ -360,7 +375,6 @@ void Player::DeathEvent()
 			{
 				continue;
 			}
-
 			std::shared_ptr<Player> OtherPlayer = std::dynamic_pointer_cast<Player>(OtherActor);
 			OtherPlayer->GetTCPSession()->Send(Sr.GetData());
 		}

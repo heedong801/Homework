@@ -50,6 +50,8 @@ private:
 	void AnimationEnd(ClientAnimationType _Value);
 
 	FVector MouseVectorToWorldVector();
-
+	void SetChatTypeOne();
+	void SetChatTypeInSec();
+	void SetChatTypeAll();
 	// void TestPacketUpdate0();
 };

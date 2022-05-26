@@ -46,6 +46,11 @@ public:
 		GameServerSectionManager::GetInst()->MessagePost(_ThreadIndex, std::bind(_ChildFunction, std::dynamic_pointer_cast<ChildThreadHandler>(this->shared_from_this())));
 	}
 
+	void ActorsPost(uint64_t _ThreadIndex, uint64_t _SectionIndex, uint64_t _ActorIndex, std::shared_ptr<GameServerMessage> _Message)
+	{
+		GameServerSectionManager::GetInst()->ActorsPost(_ThreadIndex, _SectionIndex, _ActorIndex, _Message);
+	}
+
 	void ActorWork(uint64_t _ThreadIndex, uint64_t _SectionIndex, uint64_t _ActorIndex, std::shared_ptr<GameServerMessage> _Message)
 	{
 		GameServerSectionManager::GetInst()->ActorPost(_ThreadIndex, _SectionIndex, _ActorIndex, _Message);
@@ -55,6 +60,7 @@ public:
 	{
 		GameServerSectionManager::GetInst()->ActorPointPost(_ThreadIndex, _SectionIndex, _ActorIndex, _EndPoint, _Message);
 	}
+	
 
 
 protected:

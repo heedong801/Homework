@@ -69,8 +69,9 @@ void AClientOtherCharacter::Tick(float DeltaTime)
 			FQuat RotData = FQuat(Rot.X, Rot.Y, Rot.Z, Rot.W);
 			SetActorRotation(RotData);
 			// 데드레커닝을 클라이언트가처리하게 해봅시다.
+			ObjectIndex = UpdateMessage->Data.ObjectIndex;
 			SetActorLocation(UpdateMessage->Data.Pos);
-
+			
 		}
 		else if (MessageId::ObjectDestroy == Message->GetId<MessageId>())
 		{

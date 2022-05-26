@@ -50,3 +50,12 @@ enum class ESectionType
 	FIGHTZONE4,
 	MAX,
 };
+
+enum class EChatMessageType
+{
+	NONE,
+	ALL,
+	ONEPLAYER,
+	INSECTION,
+	MAX,
+};

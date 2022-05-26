@@ -17,4 +17,5 @@ class UNREALCLIENT_API UChatMessageObject : public UObject
 public:
 	FString ID_;
 	FString Message_;
+	int Type;
 };

@@ -160,6 +160,7 @@ UClientGameInstance::UClientGameInstance()
 	ClientMode_ = false;
 	LoginProcess_ = false;
 	RankWindowMode = ESlateVisibility::Hidden;
+	ChatMessageType = static_cast<int>(EChatMessageType::ALL);
 
 }
 

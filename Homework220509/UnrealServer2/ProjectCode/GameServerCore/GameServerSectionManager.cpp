@@ -98,3 +98,16 @@ void GameServerSectionManager::ActorPointPost(uint64_t ThreadIndex, uint64_t Sec
 	std::shared_ptr<GameServerSectionThread> Thread = SecitonThread_[ThreadIndex];
 	SecitonThread_[ThreadIndex]->SectionThreadQueue.EnQueue(std::bind(&GameServerSectionThread::ActorPointPost, Thread.get(), SectionIndex, ObjectId, _Point, _Message));
 }
+
+void GameServerSectionManager::ActorsPost(uint64_t ThreadIndex, uint64_t SectionIndex, uint64_t ObjectId, std::shared_ptr<GameServerMessage> _Message)
+{
+	if (SecitonThread_.size() <= ThreadIndex)
+	{
+		GameServerDebug::AssertDebugMsg("존재하지 않는 섹션에 메세지를 보냈습니다.");
+		return;
+	}
+
+	std::shared_ptr<GameServerSectionThread> Thread = SecitonThread_[ThreadIndex];
+
+	SecitonThread_[ThreadIndex]->SectionThreadQueue.EnQueue(std::bind(&GameServerSectionThread::ActorsPost, Thread.get(), SectionIndex, ObjectId, _Message));
+}

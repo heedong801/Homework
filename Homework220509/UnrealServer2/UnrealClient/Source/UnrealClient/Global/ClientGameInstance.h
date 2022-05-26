@@ -147,6 +147,7 @@ public:
 	uint64_t ObjectIndex;
 	uint64_t ThreadIndex;
 	uint64_t SectionIndex;
+	uint64_t TargetObjectIndex;
 	ESlateVisibility RankWindowMode;
 	class UWidget* RankWindow;
 	class UPlayUIUserWidget* PlayUI;

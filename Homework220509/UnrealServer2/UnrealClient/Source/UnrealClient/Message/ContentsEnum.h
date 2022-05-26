@@ -54,8 +54,8 @@ enum class ESectionType
 enum class EChatMessageType
 {
 	NONE,
-	INSECTION,
-	ONEPLAYER,
 	ALL,
+	ONEPLAYER,
+	INSECTION,
 	MAX,
 };

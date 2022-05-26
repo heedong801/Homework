@@ -44,7 +44,7 @@ public:
 		ObjectType_ = _Type;
 	}
 
-	FORCEINLINE void SetId(int _ObjectID)
+	FORCEINLINE void SetObjectId(int _ObjectID)
 	{
 		ObjectID_ = _ObjectID;
 	}

@@ -11,6 +11,7 @@
 #include "Animation/AnimMontage.h"
 #include "ClientAnimInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "ClientOtherCharacter.h"
 #include "GameFramework/PlayerInput.h"
 #include "DrawDebugHelpers.h"
 
@@ -22,6 +23,7 @@ AClientPlayCharacter::AClientPlayCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	UDPReady = false;
 	ServerPost = false;
+
 }
 
 // Called when the game starts or when spawned
@@ -44,7 +46,7 @@ void AClientPlayCharacter::BeginPlay()
 	}
 
 	SetObjectType(EGameObjectType::Player);
-	SetId(GameMode->GetUniqueID());
+	SetObjectId(Inst->ObjectIndex);
 	GameMode->RegistObject(Inst->ObjectIndex, EGameObjectType::Player, this);
 
 	GetClientAnimInstance()->AddEndFunctionBind(std::bind(&AClientPlayCharacter::AnimationEnd, this, std::placeholders::_1));
@@ -219,8 +221,6 @@ void AClientPlayCharacter::Tick(float DeltaTime)
 		return;
 	}
 
-	// UE_LOG(ClientLog, Error, TEXT("%S(%u) > %s move Packet"), __FUNCTION__, __LINE__, *GetActorLocation().ToString());
-
 	SendPlayerUpdatePacket();
 	PrevVector = GetActorLocation();
 
@@ -269,6 +269,11 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("ClientPlayer_Move", EInputEvent::IE_Released, this, &AClientPlayCharacter::MoveEnd);
 
 	PlayerInputComponent->BindAction("ClientPlayer_Attack", EInputEvent::IE_Released, this, &AClientPlayCharacter::Attack);
+
+	PlayerInputComponent->BindAction("SetChatType_InSection", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeInSec);
+	PlayerInputComponent->BindAction("SetChatType_OnePlayer", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeOne);
+	PlayerInputComponent->BindAction("SetChatType_All", EInputEvent::IE_Pressed, this, &AClientPlayCharacter::SetChatTypeAll);
+
 	//PlayerInputComponent->BindAction("TestPacket0", EInputEvent::IE_Released, this, &AClientPlayCharacter::TestPacketUpdate0);
 
 	FInputModeGameAndUI InputMode;
@@ -276,7 +281,64 @@ void AClientPlayCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 }
 
+//XX
+void AClientPlayCharacter::SetChatTypeOne()
+{
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
+
+	FHitResult HitResult;
+	FCollisionQueryParams Params(NAME_None, false, this);
+	//UE_LOG(ClientLog, Log, TEXT("Player FName :: %d"), Inst->ObjectIndex);
+
+	bool bResult = GetWorld()->SweepSingleByChannel(
+		HitResult,
+		GetActorLocation(),
+		GetActorLocation() + GetActorForwardVector() * 200.0f,
+		FQuat::Identity,
+		ECollisionChannel::ECC_GameTraceChannel1,
+		FCollisionShape::MakeSphere(100.0f),
+		Params);
+
+	if (bResult)
+	{
+		//UE_LOG(ClientLog, Log, TEXT("Character FName :: %s"), *HitResult.Actor->GetName());
+
+		AClientOtherCharacter* OtherPlayer = Cast<AClientOtherCharacter>(HitResult.Actor);
+		Inst->TargetObjectIndex = OtherPlayer->ObjectIndex;
+		UE_LOG(ClientLog, Log, TEXT("Character FName :: %d"), Inst->TargetObjectIndex);
+	}
+
+	Inst->SetMsgType(EChatMessageType::ONEPLAYER);
+}
+
+//ZZ
+void AClientPlayCharacter::SetChatTypeInSec()
+{
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
+
+	Inst->SetMsgType(EChatMessageType::INSECTION);
+}
+//CC
+void AClientPlayCharacter::SetChatTypeAll()
+{
+	UClientGameInstance* Inst = Cast<UClientGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	if (nullptr == Inst || false == Inst->IsValidLowLevel())
+	{
+		return;
+	}
+	Inst->SetMsgType(EChatMessageType::ALL);
+}
 
 void AClientPlayCharacter::MoveRight(float _Rate) 
 {

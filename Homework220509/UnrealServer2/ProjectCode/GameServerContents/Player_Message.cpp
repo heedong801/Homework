@@ -29,6 +29,9 @@ void Player::MessageCheck()
 		case MessageId::LevelMoveReply:
 			LevelMoveReplyMessageProcess(std::dynamic_pointer_cast<LevelMoveReplyMessage>(Message));
 			break;
+		case MessageId::Chat:
+			ChatMessageProcess(std::dynamic_pointer_cast<ChatMessage>(Message));
+			break;
 		default:
 			GameServerDebug::AssertDebugMsg("처리할수 없는 메세지를 받았습니다");
 			break;

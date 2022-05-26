@@ -167,7 +167,8 @@ private:
 public:
 	void ActorPost(uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message);
 	void ActorPointPost(uint64_t _ObjectIndex, const IPEndPoint& _EndPoint, std::shared_ptr<GameServerMessage> _Message);
-
+	void ActorsPost(uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message);
+	
 	const std::list<std::shared_ptr<GameServerActor>>& GetAiActors() 
 	{
 		return AIActor_;

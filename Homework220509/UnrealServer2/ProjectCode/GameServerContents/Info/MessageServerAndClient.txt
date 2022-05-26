@@ -2,6 +2,9 @@
 std::string ID;
 std::string Message;
 int MessagaType;
+uint64_t ObjectIndex;
+uint64_t ThreadIndex;
+uint64_t SectionIndex;
 
 |PlayerUpdate-
 FPlayerUpdateData Data;

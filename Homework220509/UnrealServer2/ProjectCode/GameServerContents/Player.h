@@ -34,13 +34,14 @@ public:
 	void ClientToReadyMessageProcess(std::shared_ptr<class ClientToReadyMessage> _Message);
 	void PlayerUpdateMessageProcess(std::shared_ptr<class PlayerUpdateMessage> _Message);
 	void LevelMoveReplyMessageProcess(std::shared_ptr<class LevelMoveReplyMessage> _Message);
-	
+	void ChatMessageProcess(std::shared_ptr<class ChatMessage> _Message);
+
 
 protected:
 	PlayerUpdateMessage& GetPlayerUpdateMessage();
 	GameServerSerializer& GetSerializePlayerUpdateMessage();
 
-	void SelfUpdateMessage();
+	void SelfTCPMessage(std::vector<unsigned char> data);
 	void BroadcastingPlayerUpdateMessage();
 
 private:

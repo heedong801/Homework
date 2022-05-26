@@ -46,7 +46,7 @@ private:
 
 	GameServerQueue SectionThreadQueue;
 
-	std::shared_ptr<std::thread> thread_;
+	
 	// 쓰레드가 담당하게될 섹션들
 	std::atomic<size_t> LastIndex_;
 
@@ -63,6 +63,6 @@ private:
 	void ActorPost(uint64_t SectionIndex, uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message);
 
 	void ActorPointPost(uint64_t SectionIndex, uint64_t _ObjectIndex, const IPEndPoint& _EndPoint, std::shared_ptr<GameServerMessage> _Message);
-
+	void ActorsPost(uint64_t SectionIndex, uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message);
 };
 

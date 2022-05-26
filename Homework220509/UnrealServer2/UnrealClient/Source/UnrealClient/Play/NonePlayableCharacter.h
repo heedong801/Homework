@@ -17,4 +17,6 @@ class UNREALCLIENT_API ANonePlayableCharacter : public AClientCharacter
 
 public:
 	ANonePlayableCharacter();
+
+	int ObjectIndex;
 };

@@ -59,7 +59,7 @@ void UChatWindow::ChatSend(FString _Text, ETextCommit::Type _Type)
 
 	NewChatObject->ID_ = Inst->ID;
 	NewChatObject->Message_ = _Text;
-
+	NewChatObject->Type = Inst->GetMsgType();
 	MessageAdd(NewChatObject);
 	// MessageListView_->AddItem(NewChatObject);
 
@@ -73,6 +73,17 @@ void UChatWindow::ChatSend(FString _Text, ETextCommit::Type _Type)
 
 	CMessage.ID = ID;
 	CMessage.Message = Message;
+	CMessage.MessagaType = Inst->GetMsgType();
+
+	if (CMessage.MessagaType == static_cast<int>(EChatMessageType::ONEPLAYER) && Inst->TargetObjectIndex != 0)
+	{
+		CMessage.ObjectIndex = Inst->TargetObjectIndex;
+		Inst->TargetObjectIndex = 0;
+	}
+	else
+		CMessage.ObjectIndex = Inst->GetClientIndex();
+	CMessage.ThreadIndex = Inst->ThreadIndex;
+	CMessage.SectionIndex = Inst->SectionIndex;
 
 	GameServerSerializer Sr;
 	CMessage.Serialize(Sr);

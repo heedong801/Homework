@@ -31,7 +31,7 @@ void GameServerSectionThread::ThreadFunction(int _Index)
 		while (Result == GameServerQueue::QUEUE_RETURN::OK)
 		{
 			Result = SectionThreadQueue.Execute(1);
-		}
+		} 
 
 		if (GameServerQueue::QUEUE_RETURN::DESTROY == Result)
 		{
@@ -140,4 +140,15 @@ void GameServerSectionThread::ActorPointPost(uint64_t SectionIndex, uint64_t _Ob
 	}
 
 	KeySections_[SectionIndex]->ActorPointPost(_ObjectIndex, _EndPoint, _Message);
+}
+
+void GameServerSectionThread::ActorsPost(uint64_t SectionIndex, uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message)
+{
+	if (KeySections_.end() == KeySections_.find(SectionIndex))
+	{
+		GameServerDebug::AssertDebugMsg("존재하지 않는 섹션에 메세지를 보냈습니다.");
+		return;
+	}
+
+	KeySections_[SectionIndex]->ActorsPost(_ObjectIndex, _Message);
 }

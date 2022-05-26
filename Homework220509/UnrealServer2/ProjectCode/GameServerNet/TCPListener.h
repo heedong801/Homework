@@ -35,7 +35,6 @@ public: // Default
 	void Close();
 
 	void BroadCast(std::vector<unsigned char> _Data, std::shared_ptr<TCPSession> _Ignore);
-
 protected:
 	TCPListener& operator=(const TCPListener& _Other) = delete;
 	TCPListener& operator=(TCPListener&& _Other) = delete;

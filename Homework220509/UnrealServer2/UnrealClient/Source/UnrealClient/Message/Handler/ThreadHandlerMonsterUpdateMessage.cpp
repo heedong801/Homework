@@ -40,7 +40,7 @@ void ThreadHandlerMonsterUpdateMessage::Start()
 		AClientMonster* NewMonster = World_->SpawnActorDeferred<AClientMonster>(Monster.Get(), Transform);
 		// 세팅해 주고 싶은 내용들을 다 세팅해준다음
 		NewMonster->FinishSpawning(Transform);
-		NewMonster->SetId(Message_->Data.ObjectIndex);
+		NewMonster->SetObjectId(Message_->Data.ObjectIndex);
 		NewMonster->SetObjectType(EGameObjectType::Monster);
 		PGameMode->RegistObject(Message_->Data.ObjectIndex, EGameObjectType::Monster, NewMonster);
 		PGameMode->ObjectPushMessage(Message_->Data.ObjectIndex, Message_);

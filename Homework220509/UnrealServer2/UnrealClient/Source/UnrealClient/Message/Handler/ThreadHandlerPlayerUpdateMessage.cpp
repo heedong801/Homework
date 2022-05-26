@@ -43,7 +43,7 @@ void ThreadHandlerPlayerUpdateMessage::Start()
 
 		AClientCharacter* NewCharacter = World_->SpawnActorDeferred<AClientCharacter>(CharacterSubClass.Get(), Transform, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 		NewCharacter->FinishSpawning(Transform);
-		NewCharacter->SetId(Message_->Data.ObjectIndex);
+		NewCharacter->SetObjectId(Message_->Data.ObjectIndex);
 		NewCharacter->SetObjectType(EGameObjectType::Player);
 		PGameMode->RegistObject(Message_->Data.ObjectIndex, EGameObjectType::Player, NewCharacter);
 		PGameMode->ObjectPushMessage(Message_->Data.ObjectIndex, Message_);

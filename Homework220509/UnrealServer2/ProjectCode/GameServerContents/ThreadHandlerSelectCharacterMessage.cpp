@@ -112,7 +112,7 @@ void ThreadHandlerSelectCharacterMessage::SectionInsert()
 	// 플레이어 일수도 있다.
 	// 액터를 상속받는 캐릭터도 들어갈수 있고 액터
 
-	size_t Key = UserData->SelectData.LastSectionID;
+	int Key = UserData->SelectData.LastSectionID;
 
 	if (Key == -1)
 	{

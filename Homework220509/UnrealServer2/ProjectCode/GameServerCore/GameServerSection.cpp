@@ -311,9 +311,45 @@ void GameServerSection::ActorPost(uint64_t _ObjectIndex, std::shared_ptr<GameSer
 	}
 	
 
-
 	FindIter->second->Messagequeue_.push(_Message);
+}
 
+void GameServerSection::ActorsPost(uint64_t _ObjectIndex, std::shared_ptr<GameServerMessage> _Message)
+{
+	// std::lock_guard<std::mutex> lock(WaitLock);
+
+	// 지역static은 1번만 초기화 되죠?
+	std::map<uint64_t, std::shared_ptr<GameServerActor>>::iterator FindIter;
+
+	FindIter = KeyActor_.find(_ObjectIndex);
+
+	if (KeyActor_.end() == FindIter)
+	{
+		GameServerDebug::AssertDebugMsg("존재하지 않는 액터에서 메세지를 보냈습니다.");
+		return;
+	}
+
+	if (nullptr == FindIter->second)
+	{
+		GameServerDebug::AssertDebugMsg("존재하지 않는 액터에 메세지를 보냈습니다.");
+		return;
+	}
+
+	// 이동중이다.
+	if (true == FindIter->second->IsSectionMove_)
+	{
+		return;
+	}
+
+	for (auto actor : KeyActor_)
+	{
+		if (actor.first == _ObjectIndex)
+			continue;
+
+		if( actor.second->GetTCPSession() != nullptr)
+			actor.second->Messagequeue_.push(_Message);
+	}
+	
 }
 
 void GameServerSection::ActorPointPost(uint64_t _ObjectIndex, const IPEndPoint& _EndPoint, std::shared_ptr<GameServerMessage> _Message) 

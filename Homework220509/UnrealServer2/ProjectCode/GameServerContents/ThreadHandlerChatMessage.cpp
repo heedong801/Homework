@@ -23,12 +23,11 @@ void ThreadHandlerChatMessage::Start()
 		GameServerDebug::LogError("Login TCPSession Error");
 	}
 
-	{
-		std::string TId = GameServerString::UTF8ToAnsi(Message_->ID);
-		std::string TMsg = GameServerString::UTF8ToAnsi(Message_->Message);
+	
+	std::string TId = GameServerString::UTF8ToAnsi(Message_->ID);
+	std::string TMsg = GameServerString::UTF8ToAnsi(Message_->Message);
+	EChatMessageType Type = static_cast<EChatMessageType>(Message_->MessagaType);
 
-		int a = 0;
-	}
 
 	GameServerSerializer Data;
 	Message_->Serialize(Data);
@@ -41,7 +40,11 @@ void ThreadHandlerChatMessage::Start()
 		return;
 	}
 
-	Parent->BroadCast(Data.GetData(), Session_);
-
+	if (Type == EChatMessageType::ALL)
+		Parent->BroadCast(Data.GetData(), Session_);
+	else if (Type == EChatMessageType::ONEPLAYER)
+		ActorWork(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
+	else if (Type == EChatMessageType::INSECTION)
+		ActorsPost(Message_->ThreadIndex, Message_->SectionIndex, Message_->ObjectIndex, Message_);
 	//TCPSession_->Send(Data.GetData());
 }
